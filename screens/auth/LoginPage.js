@@ -1,6 +1,9 @@
-import { StyleSheet,TextInput, Text, View ,Button,TouchableOpacity,ImageBackground,Platform} from 'react-native';
+import { StyleSheet,TextInput, Text, View ,Image,TouchableOpacity,ImageBackground,Platform} from 'react-native';
 import React, {useState,useEffect} from 'react';
 import authBackground from '../../assets/images/authBackground.png';
+import logo from '../../assets/logos/logo-letter-1.png';
+import {commonStyles,palette} from '../config';
+
 export default function LoginPage({navigation}){
     const [usernameEmail, setUsernameEmail] = useState(null);
     const [password,setPassword] = useState("");
@@ -8,6 +11,7 @@ export default function LoginPage({navigation}){
     return (
         <View style={styles.container}>
           <ImageBackground source={authBackground} style={styles.backgroundImage} resizeMode="cover">
+          <Image style={styles.logo} source={logo}></Image>
         <TextInput
           style={styles.input}
           placeholder="Username or email"
@@ -19,7 +23,7 @@ export default function LoginPage({navigation}){
           placeholder="Password"
           onSubmitEditing={ev => setPassword(ev.nativeEvent.text)}
           />
-        <TouchableOpacity  style={[styles.button,styles.button.login,{marginTop:30}]}>
+        <TouchableOpacity onPress={() => navigation.navigate('Main')} style={[styles.button,styles.button.login,{marginTop:30}]}>
           <Text style={styles.button.login.text}>Log in</Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={() => navigation.navigate('Register')} style={[styles.button,styles.button.signup,{marginBottom:30}]}>
@@ -36,14 +40,11 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'flex-end',
       },
-    container: {
-      flex: 1,
-    },
-    input:{
-      marginBottom:10,
-      borderRadius:20,
-      borderColor:'#0abfb9',
-      backgroundColor:'white',
+      input:{
+        marginBottom:10,
+        borderRadius:15,
+        borderColor:palette["primary"],
+        backgroundColor:'white',
       borderWidth:1,
       height:40,
       width:320,
@@ -54,11 +55,11 @@ const styles = StyleSheet.create({
         text:{
           color:'white'
         },
-        backgroundColor:'#0abfb9',
+        backgroundColor:palette["primary"],
       },
       signup:{
         text:{
-          color:'#0abfb9'
+          color:palette["primary"]
         }
       },
       marginBottom:10,
@@ -66,8 +67,16 @@ const styles = StyleSheet.create({
       borderRadius:20,
       width:320,
       alignItems:'center',
-      borderColor:"#0abfb9",
+      borderColor:palette["primary"],
       borderWidth:1,
-    }
+    },
+    logo:{
+      width:198,
+      height:138,
+      marginBottom:90
+    },
+
+
+    container:commonStyles.container,
   });
   
