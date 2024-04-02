@@ -6,11 +6,11 @@ import React, {useState,useEffect} from 'react';
 import LoginPage from './screens/auth/LoginPage';
 import RegisterPage from './screens/auth/RegisterPage';
 import Main from './screens/Main';
-
+import {commonStyles,palette,loadFonts} from './screens/config';
 const Stack = createNativeStackNavigator();
 
 export default function App() {
-
+  loadFonts()
   return (
     <View style={{ flex: 1}}>
       <NavigationContainer>
@@ -18,15 +18,10 @@ export default function App() {
         <Stack.Screen name="Login" component={LoginPage} />
         <Stack.Screen name="Register" component={RegisterPage} />
         <Stack.Screen name="Main" component={Main} />
+        
       </Stack.Navigator>
     </NavigationContainer>
-
-    
-    {/* <TouchableOpacity style={{backgroundColor:"#f00",position:'absolute',bottom:0,right:0}} >
-        <Text>Toggle Sidebar</Text>
-      </TouchableOpacity>
-       */}
-    <StatusBar/>
+    <StatusBar style="light" hidden={false}/>
     </View>
   );  
 }

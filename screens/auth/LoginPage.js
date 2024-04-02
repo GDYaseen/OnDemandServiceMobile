@@ -39,12 +39,12 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         justifyContent: 'flex-end',
-      },
-      input:{
-        marginBottom:10,
-        borderRadius:15,
-        borderColor:palette["primary"],
-        backgroundColor:'white',
+    },
+    input:{
+      marginBottom:10,
+      borderRadius:15,
+      borderColor:palette["primary"],
+      backgroundColor:'white',
       borderWidth:1,
       height:40,
       width:320,

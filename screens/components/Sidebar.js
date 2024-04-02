@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
   sidebar: {
     position:'absolute',
     left: 0,
-    top: -80,
+    top: -700,
     bottom: 0,
     width: 250,
     backgroundColor: '#fff',
