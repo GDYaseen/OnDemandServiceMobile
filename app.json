@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "myApp",
-    "slug": "myApp",
+    "slug": "myapp",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -21,7 +21,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.gdyaseen.myapp"
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -30,6 +31,12 @@
       [
         "expo-font"
       ]
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "5af8d5a3-f1be-4b86-ab6f-83a3d29f07ed"
+      }
+    },
+    "owner": "gdyaseen"
   }
 }

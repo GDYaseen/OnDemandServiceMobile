@@ -1,8 +1,8 @@
 import { StyleSheet,TextInput, Text, View ,Image,TouchableOpacity,ImageBackground,Platform} from 'react-native';
 import React, {useState,useEffect} from 'react';
 import authBackground from '../../assets/images/authBackground.png';
-import logo from '../../assets/logos/logo-letter-1.png';
-import {commonStyles,palette} from '../config';
+import logo from '../../assets/logos/logo.png';
+import {commonStyles,palette,screenWidthPx} from '../config';
 
 export default function LoginPage({navigation}){
     const [usernameEmail, setUsernameEmail] = useState(null);
@@ -42,12 +42,12 @@ const styles = StyleSheet.create({
     },
     input:{
       marginBottom:10,
-      borderRadius:15,
+      borderRadius:19,
       borderColor:palette["primary"],
       backgroundColor:'white',
       borderWidth:1,
       height:40,
-      width:320,
+      width:screenWidthPx - 40,
       paddingLeft:20
     },
     button:{
@@ -65,15 +65,15 @@ const styles = StyleSheet.create({
       marginBottom:10,
       padding:10,
       borderRadius:20,
-      width:320,
+      width:screenWidthPx-40,
       alignItems:'center',
       borderColor:palette["primary"],
       borderWidth:1,
     },
     logo:{
-      width:198,
-      height:138,
-      marginBottom:90
+      width:screenWidthPx *2/3,
+      height:screenWidthPx *2/3,
+      marginBottom:screenWidthPx < 380? 40:150
     },
 
 

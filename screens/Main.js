@@ -3,7 +3,7 @@ import React, {useState,useEffect,useRef} from 'react';
 import { StatusBar } from 'expo-status-bar';
 
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import {commonStyles,palette} from './config';
+import {commonStyles,palette,screenWidthPx} from './config';
 import Sidebar from './components/Sidebar';
 import SvgMaker from './components/SvgMaker'
 
@@ -14,7 +14,7 @@ import ServicesPage from './services/servicesPage';
 const Stack = createNativeStackNavigator();
 export default function Main({navigation}){
     const [sidebarOpen, setSidebarOpen] = useState(false);
-    const [openedTab,setOpenedTab]= useState('Services')
+    const [openedTab, setOpenedTab] = useState('Services')
     const navigationRef = useRef();
     const navigateToScreen = (screenName) => {
     navigationRef.current?.navigate(screenName);
@@ -34,24 +34,27 @@ export default function Main({navigation}){
                 <View style={styles.tabs}>
                 <TouchableOpacity style={[openedTab=='Services'?styles.tabs.tab.selectedTab:null,styles.tabs.tab]} onPress={() => {setOpenedTab('Services');navigateToScreen('Services')}}>
                     <SvgMaker source='services' fill={openedTab=='Services'?palette.secondary+"6f":palette["dark"]+"4f"} width={20} height={20}/>
-                    <Text style={openedTab=='Services'?styles.tabs.tab.selectedTab.text:styles.tabs.tab.text}> Services</Text>
+                    <Text adjustsFontSizeToFit={true} numberOfLines={1} style={openedTab=='Services'?styles.tabs.tab.selectedTab.text:styles.tabs.tab.text}> Services</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={[openedTab=='Appointments'?styles.tabs.tab.selectedTab:null,styles.tabs.tab]} onPress={() => {setOpenedTab('Appointments');navigateToScreen('Register')}}>
-                    <SvgMaker source='calendar' fill={openedTab=='Appointments'?palette.secondary+"6f":palette["dark"]+"4f"} width={15} height={15}/>
-                    <Text style={openedTab=='Appointments'?styles.tabs.tab.selectedTab.text:styles.tabs.tab.text}> Appointments</Text>
+                    <SvgMaker source='calendar' fill={openedTab=='Appointments'?palette.secondary+"6f":palette["dark"]+"4f"} width={20} height={20}/>
+                    <Text adjustsFontSizeToFit={true} numberOfLines={1} style={openedTab=='Appointments'?styles.tabs.tab.selectedTab.text:styles.tabs.tab.text}> Appointments</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={[openedTab=='Gigs'?styles.tabs.tab.selectedTab:null,styles.tabs.tab]} onPress={() => {setOpenedTab('Gigs')}}>
                     <SvgMaker source='wrench' fill={openedTab=='Gigs'?palette.secondary+"6f":palette["dark"]+"4f"} width={20} height={20}/>
-                    <Text style={openedTab=='Gigs'?styles.tabs.tab.selectedTab.text:styles.tabs.tab.text}> Gigs</Text>
+                    <Text adjustsFontSizeToFit={true} numberOfLines={1} style={openedTab=='Gigs'?styles.tabs.tab.selectedTab.text:styles.tabs.tab.text}> Gigs</Text>
                 </TouchableOpacity>
                 </View>
             </View>
 
 
-            <View style={{width:360,height:'100%'}}>
+            <View style={{position:'relative',minHeight:'100%',maxHeight:'auto'}}>
                 <NavigationContainer independent={true} ref={navigationRef}>
                 <Stack.Navigator initialRouteName="Services" screenOptions={{headerShown: false,gestureEnabled: true}}>
-                    <Stack.Screen name="Services" component={ServicesPage} />
+                    <Stack.Screen name="Services">
+                        {/* <ServicesPage /> */}
+                        {props => <ServicesPage {...props} parentNav={navigation}/>}
+                    </Stack.Screen>
                 </Stack.Navigator>
                 </NavigationContainer>
             </View>
@@ -85,7 +88,7 @@ const styles = StyleSheet.create({
             backgroundColor:'white',
             borderWidth:1,
             height:40,
-            width:300,
+            width:screenWidthPx-60,
             paddingLeft:20
         }
     },
@@ -95,13 +98,14 @@ const styles = StyleSheet.create({
         justifyContent:'stretch',
         alignItems:'flex-end',
         tab:{
+            // backgroundColor:'red',
             flexDirection:'row',
             paddingBottom:15,
-            width:120,
+            width:screenWidthPx/3,
             alignItems:'center',
             justifyContent:'center',
             text:{
-                fontSize:15,
+                fontSize:screenWidthPx/30,
                 color:palette["dark"]+"4f",
                 fontFamily:'Montserrat-Light'
             },
@@ -109,7 +113,7 @@ const styles = StyleSheet.create({
                 borderBottomWidth:2,
                 borderColor:palette["secondary"],
                 text:{
-                    fontSize:15,
+                    fontSize:screenWidthPx/30,
                     color:palette["secondary"],
                     fontFamily:'Montserrat-SemiBold'
                 }

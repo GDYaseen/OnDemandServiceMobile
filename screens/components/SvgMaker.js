@@ -4,7 +4,7 @@ import { Asset } from 'expo-asset';
 import { SvgXml } from 'react-native-svg';
 
 
-export default SvgMaker = ({source,width,height,fill}) => {
+export default SvgMaker = ({source,width,height,fill,style}) => {
   const [svgContent, setSvgContent] = useState('');
 
   useEffect(() => {
@@ -16,13 +16,14 @@ export default SvgMaker = ({source,width,height,fill}) => {
     })();
   }, [source]);
 
-  return (<SvgXml xml={svgContent} width={width} fill={fill} height={height} />);
+  return (<SvgXml style={style} xml={svgContent} width={width} fill={fill} height={height} />);
 };
 //keys names must be _ , 0-9 , a-z
 const SVG_MAP = {
-  barsSolid: require('../../assets/images/bars-solid.svg'),
-  services: require('../../assets/images/services.svg'),
-  wrench: require('../../assets/images/wrench.svg'),
-  calendar: require('../../assets/images/calendar.svg'),
-  thumbsUp: require('../../assets/images/thumbs-up.svg'),
+  barsSolid:  require('../../assets/images/bars-solid.svg'),
+  services:   require('../../assets/images/services.svg'),
+  wrench:     require('../../assets/images/wrench.svg'),
+  calendar:   require('../../assets/images/calendar.svg'),
+  thumbsUp:   require('../../assets/images/thumbs-up.svg'),
+  back:       require('../../assets/images/back.svg'),
   };

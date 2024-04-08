@@ -1,7 +1,9 @@
 import { StyleSheet,TextInput, Text, View ,Image,ImageBackground,TouchableOpacity} from 'react-native';
 import React, {useState,useEffect} from 'react';
 import authBackground from '../../assets/images/authBackground.png';
-import logo from '../../assets/logos/logo-letter-2.png';
+import logo from '../../assets/logos/logo.png';
+
+import {commonStyles,palette,screenWidthPx} from '../config';
 
 export default function RegisterPage({navigation}){
   const [username, setUsername] = useState(null);
@@ -41,9 +43,9 @@ export default function RegisterPage({navigation}){
 
 const styles = StyleSheet.create({
   logo:{
-    width:198,
-    height:138,
-    marginBottom:90
+    width:screenWidthPx *2/3,
+    height:screenWidthPx *2/3,
+    marginBottom:screenWidthPx < 380? 40:150
   },
   backgroundImage: {
     flex: 1,
@@ -60,7 +62,7 @@ const styles = StyleSheet.create({
       backgroundColor:'white',
       borderWidth:1,
       height:40,
-      width:320,
+      width:screenWidthPx - 40,
       paddingLeft:20
     },
     button:{
@@ -78,7 +80,7 @@ const styles = StyleSheet.create({
       marginBottom:10,
       padding:10,
       borderRadius:20,
-      width:320,
+      width:screenWidthPx-40,
       alignItems:'center',
       borderColor:"#0abfb9",
       borderWidth:1,
