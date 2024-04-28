@@ -3,7 +3,7 @@ import React, {useState,useEffect} from 'react';
 import authBackground from '../../assets/images/authBackground.png';
 import logo from '../../assets/logos/logo.png';
 
-import {commonStyles,palette,screenWidthPx} from '../config';
+import {commonStyles,palette,windowWidthPx} from '../config';
 
 export default function RegisterPage({navigation}){
   const [username, setUsername] = useState(null);
@@ -43,9 +43,9 @@ export default function RegisterPage({navigation}){
 
 const styles = StyleSheet.create({
   logo:{
-    width:screenWidthPx *2/3,
-    height:screenWidthPx *2/3,
-    marginBottom:screenWidthPx < 380? 40:150
+    width:windowWidthPx *2/3,
+    height:windowWidthPx *2/3,
+    marginBottom:windowWidthPx < 380? 40:150
   },
   backgroundImage: {
     flex: 1,
@@ -58,11 +58,11 @@ const styles = StyleSheet.create({
     input:{
       marginBottom:10,
       borderRadius:15,
-      borderColor:'#0abfb9',
+      borderColor:palette.primary,
       backgroundColor:'white',
       borderWidth:1,
       height:40,
-      width:screenWidthPx - 40,
+      width:windowWidthPx - 40,
       paddingLeft:20
     },
     button:{
@@ -70,19 +70,19 @@ const styles = StyleSheet.create({
         text:{
           color:'white'
         },
-        backgroundColor:'#0abfb9',
+        backgroundColor:palette.primary,
       },
       login:{
         text:{
-          color:'#0abfb9'
+          color:palette.primary
         }
       },
       marginBottom:10,
       padding:10,
       borderRadius:20,
-      width:screenWidthPx-40,
+      width:windowWidthPx-40,
       alignItems:'center',
-      borderColor:"#0abfb9",
+      borderColor:palette.primary,
       borderWidth:1,
     }
   });

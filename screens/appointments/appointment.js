@@ -1,21 +1,20 @@
 import {SafeAreaView, StyleSheet,TextInput, Text,View ,Image,TouchableOpacity,Platform,Animated} from 'react-native';
 import React, {useState,useEffect,useRef} from 'react';
+import { useFonts } from 'expo-font';
 
 import {commonStyles,palette} from '../config';
 import placeholderImage from '../../assets/images/placeholderImage.png'
-export default function Service({service,parentNav}){
+export default function Appointment({appointment}){
     
     return (
     <View style={styles.container}>
-        <Image resizeMode='contain' style={styles.preview} source={service.image?service.image:placeholderImage}></Image>
+        <Image resizeMode='contain' style={styles.preview} source={appointment.image?appointment.image:placeholderImage}></Image>
         <View style={{flex:1,paddingLeft:10}}>
-            <Text style={styles.category}>{service.category}</Text>
-            <Text style={styles.title}>{service.title}</Text>
-            <Text style={styles.stars}>{service.stars} ⭐</Text>
-            <Text style={styles.price}>{service.price} DH</Text>
-            <TouchableOpacity onPress={()=>{parentNav.navigate("ServiceDetails",{id:service.key})}} style={styles.hireButton}>
-                <Text style={{fontFamily:'Montserrat-Regular',color:'white'}}>HIRE</Text>
-            </TouchableOpacity>  
+            <Text style={styles.category}>{appointment.category}</Text>
+            <Text numberOfLines={2} style={styles.title}>{appointment.title}</Text>
+            <Text style={styles.time}>{appointment.time}</Text>
+            <Text style={styles.seller}>{appointment.provider}</Text>
+            <Text style={styles.price}>{appointment.price} DH</Text> 
         </View>
     </View>
     )
@@ -23,12 +22,15 @@ export default function Service({service,parentNav}){
 const styles = StyleSheet.create({
     container:{
         backgroundColor:'white',
-        height:130,
+        // width:'90%',
+        height:90,
+        // marginLeft:15,
+        // marginRight:15,
         margin:10,
         flexDirection:'row',
         borderRadius:10,
         overflow:'hidden',
-        borderColor:palette.secondary,
+        borderColor:palette.dark,
         borderWidth:1
     },
     preview:{
@@ -38,34 +40,42 @@ const styles = StyleSheet.create({
     },
     category:{
         color:palette.dark+'3f',
-        fontFamily:'Montserrat-Light'
+        fontFamily:'Montserrat-Light',
+        fontSize:12
     },
     title:{
-        fontSize:18,
+        fontSize:14,
+        // fontFamily:'Montserrat-Light'
     },
-    stars:{
+    seller:{
+        fontSize:14,
+        fontFamily:'Montserrat-Light',
+        color:palette.primary
+    },
+    time:{
         position:"absolute",
         top:5,
         right:10,
-        fontFamily:'Montserrat-Light'
+        fontFamily:'Montserrat-Light',
+        fontSize:10
     },
     price:{
         position:'absolute',
         bottom:5,
         left:10,
-        fontSize:17,
+        fontSize:15,
         color:palette.dark,
         fontFamily:'Montserrat-Thin'
     },
     hireButton:{
         width:100,
         height:30,
-        right:5,
+        right:0,
         position:'absolute',
-        bottom:5,
+        bottom:0,
         backgroundColor:palette.secondary,
         justifyContent:'center',
         alignItems:'center',
-        borderRadius:5
+        borderTopLeftRadius:5
     },
 })

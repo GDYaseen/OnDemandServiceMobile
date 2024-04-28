@@ -1,8 +1,7 @@
 import {SafeAreaView, StyleSheet,TextInput, Text,View ,Image,TouchableOpacity,Platform,Animated} from 'react-native';
 import React, {useState,useEffect,useRef} from 'react';
-import { useFonts } from 'expo-font';
 
-import {commonStyles,palette,screenWidthPx} from '../config';
+import {commonStyles,palette,windowWidthPx} from '../config';
 import placeholderImage from '../../assets/images/placeholderImage.png'
 export default function Category({image,title}){
     return (

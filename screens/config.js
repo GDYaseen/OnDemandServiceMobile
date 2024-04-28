@@ -47,8 +47,8 @@ function loadFonts(){
 
 const palette = {
     dark:       "#1b1b28",
-    primary:    "#e46483",
-    secondary:  "#1bc5bd",
+    primary:    "#009EF7",//"#e46483",
+    secondary:  "#ff9800",//"#1bc5bd",
     bright:     "#d7d7e3"
 }
 const commonStyles={
@@ -56,13 +56,10 @@ const commonStyles={
         flex: 1
     }
 }
-/**
- * Screen width in pixels
- */
-const screenWidthPx = Dimensions.get('window').width;
-/**
- * Screen height in pixels
- */
-const screenHeightPx = Dimensions.get('window').height;
-export {commonStyles,palette,loadFonts,screenWidthPx,screenHeightPx}
+const screenWidthPx = Dimensions.get('screen').width;
+const screenHeightPx = Dimensions.get('screen').height;
+const windowWidthPx = Dimensions.get('window').width;
+const windowHeightPx = Dimensions.get('window').height;
+
+export {commonStyles,palette,loadFonts,windowWidthPx,screenWidthPx,windowHeightPx,screenHeightPx}
 

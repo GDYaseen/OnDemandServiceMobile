@@ -2,12 +2,13 @@ import { StyleSheet,TextInput, Text, View ,Image,TouchableOpacity,ImageBackgroun
 import React, {useState,useEffect} from 'react';
 import authBackground from '../../assets/images/authBackground.png';
 import logo from '../../assets/logos/logo.png';
-import {commonStyles,palette,screenWidthPx} from '../config';
+import {commonStyles,palette,screenHeightPx,windowHeightPx,windowWidthPx} from '../config';
 
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 export default function LoginPage({navigation}){
     const [usernameEmail, setUsernameEmail] = useState(null);
     const [password,setPassword] = useState("");
-  
+    // const insets = useSafeAreaInsets()
     return (
         <View style={styles.container}>
           <ImageBackground source={authBackground} style={styles.backgroundImage} resizeMode="cover">
@@ -47,7 +48,7 @@ const styles = StyleSheet.create({
       backgroundColor:'white',
       borderWidth:1,
       height:40,
-      width:screenWidthPx - 40,
+      width:windowWidthPx - 40,
       paddingLeft:20
     },
     button:{
@@ -65,15 +66,15 @@ const styles = StyleSheet.create({
       marginBottom:10,
       padding:10,
       borderRadius:20,
-      width:screenWidthPx-40,
+      width:windowWidthPx-40,
       alignItems:'center',
       borderColor:palette["primary"],
       borderWidth:1,
     },
     logo:{
-      width:screenWidthPx *2/3,
-      height:screenWidthPx *2/3,
-      marginBottom:screenWidthPx < 380? 40:150
+      width:windowWidthPx *2/3,
+      height:windowWidthPx *2/3,
+      marginBottom:windowWidthPx < 380? 40:150
     },
 
 

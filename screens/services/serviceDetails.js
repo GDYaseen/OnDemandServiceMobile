@@ -5,7 +5,7 @@ import { View, Text, ScrollView, StyleSheet, Animated, TouchableOpacity, Image, 
 import placeholderImage from '../../assets/images/placeholderImage.png'
 import SvgMaker from '../components/SvgMaker';
 import profilePng from '../../assets/images/account.png'
-import { palette,screenWidthPx } from '../config';
+import { palette,windowWidthPx } from '../config';
 import Review from '../reviews/review';
 export default function ServiceDetails({navigation,route}) {
   const { id } = route.params;
@@ -16,26 +16,26 @@ export default function ServiceDetails({navigation,route}) {
       <SvgMaker  source={'back'} width={20} height={20} fill={"#fff"} />
       </TouchableOpacity>
 
-      <Image source={placeholderImage} resizeMode="contain" style={{height:200,backgroundColor:'lightgray',width:screenWidthPx}}/>
+      <Image source={placeholderImage} resizeMode="contain" style={{height:200,backgroundColor:'lightgray',width:windowWidthPx}}/>
       <View style={styles.profile}>
         <Image source={profilePng} style={styles.profile.image} />
         <Text style={styles.profile.sellerName}>Seller name</Text>
       </View>
       <View style={styles.content}>
         <Text style={styles.content.title}>Title titling the title thing</Text>
-        <Text style={styles.content.description}>lorem ipsum something somthing lorem ipsum something somthing lorem ipsum. something somthing lorem ipsum lorem ipsum lorem ipsum lorem ipsum in 5 in 5 in 5 to 6 business days. This is the description</Text>
+        <Text style={styles.content.description}>This is the description {lorem}</Text>
         <TouchableOpacity style={styles.content.hireButton}><Text style={styles.content.hireButton.text}>Continue (100DH)</Text></TouchableOpacity>
       </View>
       <View style={styles.content}>
         <Text style={styles.content.stars}>⭐ ⭐ ⭐ ⭐ ⭐ 4.5</Text>
         <Text style={[styles.content.sectionTitle]}>14 Reviews</Text>
         <ScrollView style={styles.content.reviews} horizontal={true} contentContainerStyle={{padding:5,flexGrow: 1 }}>
-          <Review description={lorem} stars={4.5} username={"Something"}/>
-          <Review description={lorem} stars={4.5} username={"Something"}/>
-          <Review description={lorem} stars={4.5} username={"Something"}/>
-          <Review description={lorem} stars={4.5} username={"Something"}/>
-          <Review description={lorem} stars={4.5} username={"Something"}/>
-          <Review description={lorem} stars={4.5} username={"Something"}/>
+          <Review review={r} navigation={navigation}/>
+          <Review review={r} navigation={navigation}/>
+          <Review review={r} navigation={navigation}/>
+          <Review review={r} navigation={navigation}/>
+          <Review review={r} navigation={navigation}/>
+          <Review review={r} navigation={navigation}/>
         </ScrollView>
       </View>
     </ScrollView>
@@ -116,5 +116,12 @@ let styles = StyleSheet.create({
     },
   },
 })
-
 const lorem="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
+let r = {
+  id:123,
+  username:"Someone",
+  stars:4.1,
+  date:"3 February 2024",
+  image:null,
+  description:lorem,
+}

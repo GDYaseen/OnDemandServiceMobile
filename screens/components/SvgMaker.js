@@ -12,7 +12,7 @@ export default SvgMaker = ({source,width,height,fill,style}) => {
       const asset = Asset.fromModule(SVG_MAP[source]);
       await asset.downloadAsync();
       const svgText = await readAsStringAsync(asset.localUri);
-      setSvgContent(svgText);
+      setSvgContent(svgText.replace(/fill="[^"]*"/g, ''));
     })();
   }, [source]);
 
@@ -26,4 +26,5 @@ const SVG_MAP = {
   calendar:   require('../../assets/images/calendar.svg'),
   thumbsUp:   require('../../assets/images/thumbs-up.svg'),
   back:       require('../../assets/images/back.svg'),
+  analytics:       require('../../assets/images/analytics.svg'),
   };
