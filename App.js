@@ -11,7 +11,11 @@ import {commonStyles,palette,loadFonts, screenHeightPx} from './screens/config';
 import ReviewDetails from './screens/reviews/reviewDetails';
 import Contexter from './screens/contexter';
 import BottomSlideUp from './screens/components/BottomSlideUp'
-// import {SafeAreaView,SafeAreaProvider,useSafeAreaInsets} from 'react-native-safe-area-context';
+import GigDetails from './screens/gigs/gigDetails';
+import GigEdit from './screens/gigs/gigEdit';
+import Loading from './screens/components/loading';
+import ProfilePage from './screens/profile/profilePage';
+import ProfileEdit from './screens/profile/profileEdit';
 const Stack = createNativeStackNavigator();
 
 export default function App() {
@@ -32,11 +36,17 @@ export default function App() {
         <Stack.Screen name="Main" component={Main} /> 
         <Stack.Screen name="ServiceDetails" component={ServiceDetails} /> 
         <Stack.Screen name="ReviewDetails" component={ReviewDetails} /> 
+        <Stack.Screen name="GigDetails" component={GigDetails} /> 
+        <Stack.Screen name="GigEdit" component={GigEdit} /> 
+        <Stack.Screen name="ProfilePage" component={ProfilePage} /> 
+        <Stack.Screen name="ProfileEdit" component={ProfileEdit} /> 
       </Stack.Navigator>
     </NavigationContainer>
       </Contexter.Provider>
     <BottomSlideUp isOpen={bottomBarOpen} content={bottomBarContent}  turnOffBottomBar={setBottomBarOpen}/>
+    <Loading.LoadingScreen isActive={false}/>
     <StatusBar style="light" hidden={false} />
+    
     </View>
   );  
 }

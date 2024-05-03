@@ -15,6 +15,7 @@ import NotProvider from './gigs/notProvider';
 import Contexter from './contexter';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import CategoryPage from './services/categoryPage';
+import GigsPage from './gigs/gigsPage';
 
 const Stack = createNativeStackNavigator();
 export default function Main({navigation}){
@@ -43,7 +44,7 @@ export default function Main({navigation}){
     
     context.nav=navigation
     return (
-        <SafeAreaView style={{height:windowHeightPx,position:'relative'}}>
+        <SafeAreaView style={{flex:1}}>
             <View style={styles.topBar}>
                 <View style={styles.sideBarAndSearch}>
                 <TouchableOpacity style={styles.sideBarAndSearch.sidebarButton} onPress={() => setSidebarOpen(!sidebarOpen)}>
@@ -81,7 +82,8 @@ export default function Main({navigation}){
                         {props => <AppointmentsPage {...props} bottomBar={context.bottomPopup.setBottomBarOpen} bottomContent={context.bottomPopup.setBottomBarContent} parentNav={navigation}/>}
                     </Stack.Screen>
                     <Stack.Screen name="Gigs">
-                        {props => <NotProvider {...props}/>}
+                        {/* {props => <NotProvider {...props}/>} */}
+                        {props => <GigsPage {...props} parentNav={navigation}/>}
                     </Stack.Screen>
                     <Stack.Screen name="Categories">
                         {props => <CategoryPage {...props}/>}
@@ -89,7 +91,7 @@ export default function Main({navigation}){
                 </Stack.Navigator>
                 </NavigationContainer>
             </View>
-                <Sidebar isOpen={sidebarOpen} turnOffSidebar={setSidebarOpen}/>
+                <Sidebar selectedPage={"Home"} isOpen={sidebarOpen} turnOffSidebar={setSidebarOpen}/>
             <StatusBar hidden={true}/>
         </SafeAreaView>
     );

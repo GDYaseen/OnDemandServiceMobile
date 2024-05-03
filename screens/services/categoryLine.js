@@ -7,10 +7,10 @@ import SvgMaker from '../components/SvgMaker';
 export default function CategoryLine({category,parentNav}){
     
     return (
-    <View style={[styles.container,{backgroundColor:category.color}]}>
+    <TouchableOpacity style={[styles.container,{backgroundColor:category.color}]}>
         <SvgMaker style={styles.image} fill={'white'} width={45} height={45} source={category.image?category.image:"barsSolid"}></SvgMaker>
         <Text style={{color:'white',fontFamily:'Montserrat-Regular',fontSize:17}}>{category.name}</Text>
-    </View>
+    </TouchableOpacity>
     )
 }
 const styles = StyleSheet.create({

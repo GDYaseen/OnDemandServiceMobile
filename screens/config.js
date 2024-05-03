@@ -1,6 +1,6 @@
 import { useFonts } from 'expo-font';
 import { Dimensions } from 'react-native';
-
+import { CommonActions } from '@react-navigation/native';
 function loadFonts(){
     const [fontsLoaded] = useFonts({
         'Montserrat-Thin': require('../assets/fonts/Montserrat/Montserrat-Thin.ttf'),
@@ -44,7 +44,14 @@ function loadFonts(){
         return undefined
     }
 }
-
+function handleNavDispatch(page){
+    return CommonActions.reset({
+        index: 0,
+        routes: [
+          { name: page },
+        ],
+      })
+}
 const palette = {
     dark:       "#1b1b28",
     primary:    "#009EF7",//"#e46483",
@@ -61,5 +68,5 @@ const screenHeightPx = Dimensions.get('screen').height;
 const windowWidthPx = Dimensions.get('window').width;
 const windowHeightPx = Dimensions.get('window').height;
 
-export {commonStyles,palette,loadFonts,windowWidthPx,screenWidthPx,windowHeightPx,screenHeightPx}
+export {commonStyles,palette,loadFonts,windowWidthPx,screenWidthPx,windowHeightPx,screenHeightPx,handleNavDispatch}
 

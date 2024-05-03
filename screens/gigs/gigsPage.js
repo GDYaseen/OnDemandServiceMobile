@@ -1,0 +1,134 @@
+import {ScrollView} from 'react-native';
+import React, {useState,useEffect,useRef,useCallback } from 'react';
+import { StatusBar } from 'expo-status-bar';
+import { palette, windowHeightPx, windowWidthPx } from '../config';
+import Gig from './gig';
+
+export default function GigsPage({navigation,parentNav}){
+    return (<ScrollView style={{height:windowHeightPx - 100}} contentContainerStyle={{flexGrow:1,
+        paddingBottom:100,alignItems:'center'}}>
+        {data.map((d)=>{
+            return (
+                <Gig parentNav={parentNav} key={d.key} gig={d}></Gig>
+            )
+        })}
+    </ScrollView>)
+}
+let data=[{
+    key:0,
+    category:"Electricien",
+    title:'#11abff',
+    price:200,
+    image:null,
+    status:"Published",
+},
+{
+    key:1,
+    category:"Lavage",
+    title:'#4f3021',
+    price:200,
+    image:null,
+    status:"Inactif",
+},
+{
+    key:2,
+    category:"Mechanicien",
+    title:'#de6c1f',
+    price:200,
+    image:null,
+    status:"Published",
+},
+{
+    key:10,
+    category:"Electricien",
+    title:'#11abff',
+    price:200,
+    image:null,
+    status:"Inactif",
+},
+{
+    key:11,
+    category:"Lavage",
+    title:'#4f3021',
+    price:200,
+    image:null,
+    status:"Inactif",
+},
+{
+    key:12,
+    category:"Mechanicien",
+    title:'#de6c1f',
+    price:200,
+    image:null,
+    status:"Published",
+},
+{
+    key:20,
+    category:"Electricien",
+    title:'#11abff',
+    price:200,
+    image:null,
+    status:"Inactif",
+},
+{
+    key:21,
+    category:"Lavage",
+    title:'#4f3021',
+    price:200,
+    image:null,
+    status:"Published",
+},
+{
+    key:22,
+    category:"Mechanicien",
+    title:'#de6c1f',
+    price:200,
+    image:null,
+    status:"Inactif",
+},
+{
+    key:30,
+    category:"Electricien",
+    title:'#11abff',
+    price:200,
+    image:null,
+    status:"Inactif",
+},
+{
+    key:31,
+    category:"Lavage",
+    title:'#4f3021',
+    price:200,
+    image:null,
+    status:"Inactif",
+},
+{
+    key:32,
+    category:"Mechanicien",
+    title:'#de6c1f',
+    price:200,
+    image:null,
+    status:"Published",
+},{
+    key:33,
+    category:"Mechanicien",
+    title:'#1e6c1f',
+    price:200,
+    image:null,
+    status:"Inactif",
+},
+{
+    key:42,
+    category:"Mechanicien",
+    title:'#444444',
+    price:200,
+    image:null,
+    status:"Inactif",
+},{
+    key:43,
+    category:"Mechanicien",
+    title:'#1e2c1f',
+    price:200,
+    image:null,
+    status:"Published",
+}]

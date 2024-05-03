@@ -1,19 +1,19 @@
 import React, { useState, useRef ,useContext} from 'react';
 import { View, Text, StyleSheet, Animated, TouchableOpacity,Image} from 'react-native';
-import {windowWidthPx,windowHeightPx,palette} from '../config'
+import {windowWidthPx,windowHeightPx,palette,handleNavDispatch} from '../config'
 
 import profilePng from '../../assets/images/account.png'
 import SidebarElement from './sidebarElement';
 import Contexter from '../contexter';
 
-const Sidebar = ({ isOpen ,turnOffSidebar}) => {
+const Sidebar = ({ selectedPage,isOpen ,turnOffSidebar}) => {
   // Animation value for the sidebar position
   const context = useContext(Contexter)
   const position = useRef(new Animated.Value(-windowWidthPx*0.694)).current; // Start off-screen
   const sidebarTurnOffColor = useRef(new Animated.Value(0.5)).current; // Start off-screen
 
   function disconnect(){
-    context.nav.goBack()
+    context.nav.dispatch(handleNavDispatch("Login"))
   }
 
   // Run the animation when the isOpen changes
@@ -34,7 +34,7 @@ const Sidebar = ({ isOpen ,turnOffSidebar}) => {
     outputRange: ['rgba(16,16,16,0)', 'rgba(16,16,16,0.5)'], // From fully transparent to semi-transparent
   });
   return (
-    <View style={{flex:1}}>
+    <View style={{position:'absolute',top:0,left:0,right:0,bottom:0}}>
     <Animated.View
       style={[styles.sidebar,{transform: [{ translateX: position }],},]}>
       <TouchableOpacity onPress={()=>turnOffSidebar(false)} style={[styles.sidebarClickoff,
@@ -46,9 +46,11 @@ const Sidebar = ({ isOpen ,turnOffSidebar}) => {
                 <Text style={styles.profile.username}>User's name</Text>
             </View>
             <View style={{width:'100%',marginTop:10}}>
-              <SidebarElement image={"analytics"} elementName={"Analytics"} isSelected={false}/>
-              <SidebarElement image={"analytics"} elementName={"Analytics"} isSelected={true}/>
-              <SidebarElement image={"analytics"} elementName={"Analytics"} isSelected={false}/>
+              <SidebarElement pageName={"Main"} image={"home"} elementName={"Home"} isSelected={selectedPage=="Home"}/>
+              <SidebarElement pageName={"ProfilePage"} image={"profile"} elementName={"Profile"} isSelected={selectedPage=="Profile"}/>
+              <SidebarElement pageName={""} image={"analytics"} elementName={"Analytics"} isSelected={selectedPage=="Analytics"}/>
+              <SidebarElement pageName={""} image={"orders"} elementName={"Orders"} isSelected={selectedPage=="Orders"}/>
+              <SidebarElement pageName={""} image={"settings"} elementName={"Settings"} isSelected={selectedPage=="Settings"}/>
             </View>
             <TouchableOpacity style={styles.disconnect} onPress={disconnect}>
                 <Text style={styles.disconnect.logout}>Log out</Text></TouchableOpacity>
@@ -61,12 +63,13 @@ const styles = StyleSheet.create({
   sidebar: {
     position:'absolute',
     left: 0,
-    top: -windowHeightPx-100,
+    // top: -windowHeightPx,
+    top:0,
     bottom: 0,
     width: windowWidthPx*0.694,
     backgroundColor: palette.dark,
     justifyContent: 'flex-start',
-    alignItems: 'flex-start'
+    alignItems: 'flex-start',
   },
   profile:{
     alignItems:'center',

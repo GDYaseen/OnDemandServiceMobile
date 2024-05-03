@@ -7,9 +7,15 @@ import SvgMaker from '../components/SvgMaker';
 import profilePng from '../../assets/images/account.png'
 import { palette,windowWidthPx } from '../config';
 import Review from '../reviews/review';
+import Popup from '../components/Popup';
+import MakeOrder from './makeOrder';
 export default function ServiceDetails({navigation,route}) {
   const { id } = route.params;
-
+  const [modalVisible, setModalVisible] = useState(false);
+  function hire(){
+    setModalVisible(true)
+    
+  }
   return (
     <ScrollView>
       <TouchableOpacity onPress={()=>navigation.goBack()} style={styles.back} >
@@ -24,7 +30,7 @@ export default function ServiceDetails({navigation,route}) {
       <View style={styles.content}>
         <Text style={styles.content.title}>Title titling the title thing</Text>
         <Text style={styles.content.description}>This is the description {lorem}</Text>
-        <TouchableOpacity style={styles.content.hireButton}><Text style={styles.content.hireButton.text}>Continue (100DH)</Text></TouchableOpacity>
+        <TouchableOpacity style={styles.content.hireButton} onPress={hire}><Text style={styles.content.hireButton.text}>Continue (100DH)</Text></TouchableOpacity>
       </View>
       <View style={styles.content}>
         <Text style={styles.content.stars}>⭐ ⭐ ⭐ ⭐ ⭐ 4.5</Text>
@@ -38,6 +44,7 @@ export default function ServiceDetails({navigation,route}) {
           <Review review={r} navigation={navigation}/>
         </ScrollView>
       </View>
+      <Popup visible={modalVisible} setModalVisible={setModalVisible} content={<MakeOrder/>}/>
     </ScrollView>
   )
 }

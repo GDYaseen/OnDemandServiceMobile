@@ -42,6 +42,7 @@ const styles = StyleSheet.create({
     },
     title:{
         fontSize:18,
+        fontFamily:'Montserrat-Regular'
     },
     stars:{
         position:"absolute",
