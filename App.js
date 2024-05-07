@@ -16,6 +16,9 @@ import GigEdit from './screens/gigs/gigEdit';
 import Loading from './screens/components/loading';
 import ProfilePage from './screens/profile/profilePage';
 import ProfileEdit from './screens/profile/profileEdit';
+import AnalyticsPage from './screens/analytics/analyticsPage';
+import ProviderDetails from './screens/profile/providerDetails';
+import OrdersPage from './screens/orders/ordersPage';
 const Stack = createNativeStackNavigator();
 
 export default function App() {
@@ -35,11 +38,14 @@ export default function App() {
         <Stack.Screen name="Register" component={RegisterPage} />
         <Stack.Screen name="Main" component={Main} /> 
         <Stack.Screen name="ServiceDetails" component={ServiceDetails} /> 
+        <Stack.Screen name="ProviderDetails" component={ProviderDetails} /> 
         <Stack.Screen name="ReviewDetails" component={ReviewDetails} /> 
         <Stack.Screen name="GigDetails" component={GigDetails} /> 
         <Stack.Screen name="GigEdit" component={GigEdit} /> 
         <Stack.Screen name="ProfilePage" component={ProfilePage} /> 
         <Stack.Screen name="ProfileEdit" component={ProfileEdit} /> 
+        <Stack.Screen name="AnalyticsPage" component={AnalyticsPage} /> 
+        <Stack.Screen name="OrdersPage" component={OrdersPage} /> 
       </Stack.Navigator>
     </NavigationContainer>
       </Contexter.Provider>

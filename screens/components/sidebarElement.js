@@ -1,10 +1,10 @@
-import React, { useState, useRef, useContext } from 'react';
+import React, { useState, useRef, useContext,memo } from 'react';
 import { View, Text, StyleSheet, Animated, TouchableOpacity,Image} from 'react-native';
 import {windowWidthPx,windowHeightPx,palette} from '../config'
 import SvgMaker from './SvgMaker';
 
 import Contexter from '../contexter';
-export default function SidebarElement({image,elementName,isSelected,pageName}){
+export default memo(function SidebarElement({image,elementName,isSelected,pageName}){
   const context = useContext(Contexter)
     return(
         <TouchableOpacity onPress={()=>context.nav.navigate(pageName)} style={[styles.element,isSelected?{backgroundColor:'#00000077'}:null]}>
@@ -12,7 +12,7 @@ export default function SidebarElement({image,elementName,isSelected,pageName}){
                 <Text style={styles.element.elementName}>{elementName}</Text>
             </TouchableOpacity>
     )    
-}
+})
 const styles = StyleSheet.create({
     element:{
         flexDirection:'row',

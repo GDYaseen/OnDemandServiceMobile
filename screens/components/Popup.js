@@ -1,6 +1,6 @@
 import React from 'react';
 import { Modal, View, StyleSheet, Text, TouchableOpacity, Animated } from 'react-native';
-import { screenHeightPx } from '../config';
+import { palette, screenHeightPx } from '../config';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 const Popup = ({ visible, setModalVisible, content }) => {
@@ -27,7 +27,7 @@ const Popup = ({ visible, setModalVisible, content }) => {
                 <Animated.View style={[styles.modalContent, { transform: [{ translateY }] }]}>
                     {content}
                     <TouchableOpacity onPress={() => setModalVisible(false)} style={styles.closeButton}>
-                        <Text>Close</Text>
+                        <Text style={{color:'white',fontFamily:'Montserrat-Regular'}}>Close</Text>
                     </TouchableOpacity>
                 </Animated.View>
             </View>
@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
     },
     modalContent: {
         width: '80%',
-        backgroundColor: 'white',
+        backgroundColor: palette.dark,
         padding: 20,
         borderRadius: 10,
         elevation: 20,
@@ -59,9 +59,11 @@ const styles = StyleSheet.create({
     closeButton: {
         marginTop: 10,
         alignSelf: 'center',
-        backgroundColor: '#007BFF',
+        alignItems:'center',
+        backgroundColor: 'gray',
         padding: 10,
         borderRadius: 5,
+        width:'100%'
     }
 });
 

@@ -11,6 +11,7 @@ import Popup from '../components/Popup';
 import MakeOrder from './makeOrder';
 export default function ServiceDetails({navigation,route}) {
   const { id } = route.params;
+  
   const [modalVisible, setModalVisible] = useState(false);
   function hire(){
     setModalVisible(true)
@@ -23,10 +24,10 @@ export default function ServiceDetails({navigation,route}) {
       </TouchableOpacity>
 
       <Image source={placeholderImage} resizeMode="contain" style={{height:200,backgroundColor:'lightgray',width:windowWidthPx}}/>
-      <View style={styles.profile}>
+      <TouchableOpacity onPress={()=>navigation.navigate("ProviderDetails",{id:"seller's id"})} style={styles.profile}>
         <Image source={profilePng} style={styles.profile.image} />
         <Text style={styles.profile.sellerName}>Seller name</Text>
-      </View>
+      </TouchableOpacity>
       <View style={styles.content}>
         <Text style={styles.content.title}>Title titling the title thing</Text>
         <Text style={styles.content.description}>This is the description {lorem}</Text>
