@@ -1,6 +1,7 @@
 import { useFonts } from 'expo-font';
 import { Dimensions } from 'react-native';
 import { CommonActions } from '@react-navigation/native';
+import axios from 'axios'
 function loadFonts(){
     const [fontsLoaded] = useFonts({
         'Montserrat-Thin': require('../assets/fonts/Montserrat/Montserrat-Thin.ttf'),
@@ -44,6 +45,16 @@ function loadFonts(){
         return undefined
     }
 }
+const callApi = async (url, method, data = null,headers) => {
+  try {
+    const response = await axios({url:"http://127.0.0.1:8000/api/v1"+url,method, data ,headers,validateStatus:function(status){return true;}});
+    alert(response.status)
+    return response;
+  } catch (error) {
+    console.error('API call failed: ', error);
+    throw error;
+  } 
+};
 function handleNavDispatch(page){
     return CommonActions.reset({
         index: 0,
@@ -68,5 +79,5 @@ const screenHeightPx = Dimensions.get('screen').height;
 const windowWidthPx = Dimensions.get('window').width;
 const windowHeightPx = Dimensions.get('window').height;
 
-export {commonStyles,palette,loadFonts,windowWidthPx,screenWidthPx,windowHeightPx,screenHeightPx,handleNavDispatch}
+export {commonStyles,palette,loadFonts,windowWidthPx,screenWidthPx,windowHeightPx,screenHeightPx,handleNavDispatch,callApi}
 

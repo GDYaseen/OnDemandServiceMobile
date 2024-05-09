@@ -44,7 +44,7 @@ export default function ProfileEdit({navigation}){
             <View style={styles.detail}><Text style={styles.detail.title}>Date of birth:</Text>
                     <TextInput style={styles.detail.input}>2002-1-1</TextInput></View>
             <View style={styles.detail}><Text style={styles.detail.title}>Email:</Text>
-                    <TextInput editable={false} style={styles.detail.input}>something@somewhere.com</TextInput></View>
+                    <TextInput editable={false} style={[styles.detail.input,{backgroundColor:'lightgray'}]}>something@somewhere.com</TextInput></View>
             
             <TouchableOpacity style={styles.detail.changePass}>
                 <Text style={styles.detail.changePass.text}>Change password?</Text>

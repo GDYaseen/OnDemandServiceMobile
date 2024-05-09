@@ -19,16 +19,17 @@ import ProfileEdit from './screens/profile/profileEdit';
 import AnalyticsPage from './screens/analytics/analyticsPage';
 import ProviderDetails from './screens/profile/providerDetails';
 import OrdersPage from './screens/orders/ordersPage';
-const Stack = createNativeStackNavigator();
 
+const Stack = createNativeStackNavigator();
 export default function App() {
   
   loadFonts()
   const context = useContext(Contexter)
   const [bottomBarOpen, setBottomBarOpen] = useState(false);
+  const [loadingActive, setLoadingActive] = useState(false);
   const [bottomBarContent, setBottomBarContent] = useState({height:0,components:<></>});
   context.bottomPopup = {bottomBarOpen,setBottomBarOpen,bottomBarContent,setBottomBarContent}
-  
+  context.setLoadingActive=setLoadingActive
   return (
     <View style={{ zIndex:1,flex:1}}>
       <Contexter.Provider value={context}>
@@ -49,8 +50,8 @@ export default function App() {
       </Stack.Navigator>
     </NavigationContainer>
       </Contexter.Provider>
+    <Loading.LoadingScreen isActive={loadingActive}/>
     <BottomSlideUp isOpen={bottomBarOpen} content={bottomBarContent}  turnOffBottomBar={setBottomBarOpen}/>
-    <Loading.LoadingScreen isActive={false}/>
     <StatusBar style="light" hidden={false} />
     
     </View>

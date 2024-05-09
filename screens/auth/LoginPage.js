@@ -1,14 +1,29 @@
 import { StyleSheet,TextInput, Text, View ,Image,TouchableOpacity,ImageBackground,Platform} from 'react-native';
-import React, {useState,useEffect} from 'react';
+import React, {useState,useEffect, useContext} from 'react';
 import authBackground from '../../assets/images/authBackground.png';
 import logo from '../../assets/logos/logo.png';
-import {commonStyles,palette,screenHeightPx,windowHeightPx,windowWidthPx} from '../config';
+import {callApi, commonStyles,palette,screenHeightPx,windowHeightPx,windowWidthPx} from '../config';
 
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import Contexter from '../contexter';
+
 export default function LoginPage({navigation}){
-    const [usernameEmail, setUsernameEmail] = useState(null);
+    const [usernameEmail, setUsernameEmail] = useState("");
     const [password,setPassword] = useState("");
-    // const insets = useSafeAreaInsets()
+    const context = useContext(Contexter)
+    async function verifyAndLogin(){
+      try {
+        context.setLoadingActive(true)
+        const response = await callApi("/client/login",'post',{email:usernameEmail,password:password},{})
+        if(response.status==200) {navigation.navigate("Main")}
+          else {alert("Invalid credentials")}
+      } 
+      catch (error) {
+        console.log('Failed to fetch data',error);
+      }
+       finally {
+        context.setLoadingActive(false)
+      }
+    }
     return (
         <View style={styles.container}>
           <ImageBackground source={authBackground} style={styles.backgroundImage} resizeMode="cover">
@@ -16,6 +31,7 @@ export default function LoginPage({navigation}){
         <TextInput
           style={styles.input}
           placeholder="Username or email"
+          // value={usernameEmail}
           onSubmitEditing={ev => setUsernameEmail(ev.nativeEvent.text)} // useEffect will get triggered because of re-rendering if you didnt use useRef
           />
         <TextInput
@@ -24,13 +40,15 @@ export default function LoginPage({navigation}){
           placeholder="Password"
           onSubmitEditing={ev => setPassword(ev.nativeEvent.text)}
           />
-        <TouchableOpacity onPress={() => navigation.navigate('Main')} style={[styles.button,styles.button.login,{marginTop:30}]}>
+        <TouchableOpacity onPress={() => verifyAndLogin()} style={[styles.button,styles.button.login,{marginTop:30}]}>
           <Text style={styles.button.login.text}>Log in</Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={() => navigation.navigate('Register')} style={[styles.button,styles.button.signup,{marginBottom:30}]}>
           <Text style={styles.button.signup.text}>Sign up</Text>
         </TouchableOpacity>
           </ImageBackground>
+          
+    {/* <Loading.LoadingScreen isActive={context.loadingActive}/> */}
       </View>
     );
 }

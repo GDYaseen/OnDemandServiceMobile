@@ -21,7 +21,7 @@ export default memo(function Order({gig,parentNav,handleOrderPress}){
     <TouchableOpacity style={styles.reservation}>
         <View style={styles.reservation.profile}>
             <Image source={profilePng} style={styles.reservation.profile.image} />
-            <Text style={styles.reservation.profile.sellerName}>Seller name</Text>
+            <Text style={styles.reservation.profile.sellerName}>Client name</Text>
         </View>
         <Text style={styles.reservation.reservedDate}>Desired date: 
         {/* {new Date().toISOString()} */} 2024-5-6
