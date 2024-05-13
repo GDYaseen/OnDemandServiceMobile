@@ -16,17 +16,17 @@ import Contexter from './contexter';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import CategoryPage from './services/categoryPage';
 import GigsPage from './gigs/gigsPage';
+import ServicesByCategoryPage from './services/servicesByCategoryPage';
 
 const Stack = createNativeStackNavigator();
 export default function Main({navigation}){
     const context = useContext(Contexter)
-
     const navigationRef = useRef();
-    const navigateToScreen = (screenName) => {
-        if(screenName!="Categories"){
+    const navigateToScreen = (screenName,params={}) => {
+        if(screenName!="Categories" && screenName!="ServicesByCategory"){
             setOpenedTab(screenName)
         }
-        navigationRef.current?.navigate(screenName);
+        navigationRef.current?.navigate(screenName,params);
     };
 
     const [openedTab, setOpenedTab] = useState('Services')
@@ -35,7 +35,7 @@ export default function Main({navigation}){
     const handleNavigationChange = () => {
         const route = navigationRef.current?.getCurrentRoute();
         if (route) {
-            if(route.name!='Categories')
+            if(route.name!='Categories' && route.name!="ServicesByCategory")
                 setOpenedTab(route.name);
             context.bottomPopup.setBottomBarOpen(false)
             context.bottomPopup.setBottomBarContent({height:0,components:<></>})
@@ -87,6 +87,9 @@ export default function Main({navigation}){
                     </Stack.Screen>
                     <Stack.Screen name="Categories">
                         {props => <CategoryPage {...props}/>}
+                    </Stack.Screen>
+                    <Stack.Screen name="ServicesByCategory">
+                        {props => <ServicesByCategoryPage {...props}/>}
                     </Stack.Screen>
                 </Stack.Navigator>
                 </NavigationContainer>

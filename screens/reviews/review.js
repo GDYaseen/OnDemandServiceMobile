@@ -8,9 +8,9 @@ export default function Review({review,navigation}){
         <TouchableOpacity onPress={()=>navigation.navigate("ReviewDetails",{_review:review})}style={styles.container}>
             <View style={styles.reviewer} >
                 <Image style={styles.reviewer.image} source={review.image?review.image:profilePng}/>
-                <Text style={styles.reviewer.username}>{review.username}</Text>
+                <Text style={styles.reviewer.username}>{review.client.first_name} {review.client.last_name}</Text>
             </View>
-            <Text style={styles.description} numberOfLines={7} ellipsizeMode="tail">{review.description}</Text>
+            <Text style={styles.description} numberOfLines={7} ellipsizeMode="tail">{review.comment}</Text>
             <View style={{flexDirection:'row',alignItems:'center',padding:5}}>
                 <Text style={styles.starsAndDate}>{review.stars} ⭐</Text>
                 <Text style={[styles.starsAndDate,{color:palette.dark+'4f',position:'absolute',right:5}]}>{review.date}</Text>

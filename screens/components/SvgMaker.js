@@ -5,15 +5,20 @@ import { SvgXml } from 'react-native-svg';
 import { Settings } from 'react-native';
 
 
-export default SvgMaker = ({source,width,height,fill,style}) => {
+export default SvgMaker = ({source,width,height,fill,style,content=""}) => {
   const [svgContent, setSvgContent] = useState('');
 
   useEffect(() => {
     (async () => {
-      const asset = Asset.fromModule(SVG_MAP[source]);
-      await asset.downloadAsync();
-      const svgText = await readAsStringAsync(asset.localUri);
-      setSvgContent(svgText.replace(/fill="[^"]*"/g, ''));
+      if(content==""){
+        const asset = Asset.fromModule(SVG_MAP[source]);
+        await asset.downloadAsync();
+        const svgText = await readAsStringAsync(asset.localUri);
+        setSvgContent(svgText.replace(/fill="[^"]*"/g, ''));
+      }else{
+        setSvgContent(content.match(/<svg[^>]*>([\s\S]*?)<\/svg>/)[0])
+
+      }
     })();
   }, [source]);
 

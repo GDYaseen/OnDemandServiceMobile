@@ -12,13 +12,13 @@ export default function ReviewDetails({navigation,route}){
             </TouchableOpacity>
             <View style={styles.reviewer}>
                 <Image source={_review.image?_review.image:profilePng} style={styles.reviewer.image} />
-                <Text style={styles.reviewer.sellerName}>{_review.username}</Text>
+                <Text style={styles.reviewer.sellerName}>{_review.client.first_name} {_review.client.last_name}</Text>
             </View>
             <View style={{flexDirection:'row',alignItems:'center',padding:5}}>
                 <Text style={[styles.starsAndDate,{color:palette.dark+'4f'}]}>{_review.date}</Text>
                 <Text style={[styles.starsAndDate,{position:'absolute',right:5}]}>{_review.stars} ⭐</Text>
             </View>
-            <Text style={styles.description} >{_review.description}{_review.description}{_review.description}{_review.description}{_review.description}</Text>
+            <Text style={styles.description} >{_review.description}{_review.description}{_review.comment}{_review.description}{_review.description}</Text>
         </ScrollView>
     )
 }

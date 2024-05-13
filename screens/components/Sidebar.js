@@ -1,6 +1,6 @@
 import React, { useState, useRef, useContext,memo } from "react";
 import { View, Text, StyleSheet, Animated, TouchableOpacity, Image} from "react-native";
-import { windowWidthPx, windowHeightPx, palette, handleNavDispatch} from "../config";
+import { windowWidthPx, windowHeightPx, palette, handleNavDispatch, removeData} from "../config";
 
 import profilePng from "../../assets/images/account.png";
 import SidebarElement from "./sidebarElement";
@@ -12,7 +12,10 @@ const Sidebar = ({ selectedPage, isOpen, turnOffSidebar }) => {
   const position = useRef(new Animated.Value(-windowWidthPx * 0.694)).current; // Start off-screen
   const sidebarTurnOffColor = useRef(new Animated.Value(0.5)).current; // Start off-screen
 
-  function disconnect() {
+  async function disconnect() {
+    await removeData("token")
+    await removeData("currentUser")
+    await removeData("userType")
     context.nav.dispatch(handleNavDispatch("Login"));
   }
 
@@ -52,7 +55,7 @@ const Sidebar = ({ selectedPage, isOpen, turnOffSidebar }) => {
         ></TouchableOpacity>
         <View style={styles.profile}>
           <Image source={profilePng} style={styles.profile.image} />
-          <Text style={styles.profile.username}>User's name</Text>
+          <Text style={styles.profile.username}>{context.currentUser?.first_name} {context.currentUser?.last_name}</Text>
         </View>
         <View style={{ width: "100%", marginTop: 10 }}>
           <SidebarElement pageName={"Main"} image={"home"} elementName={"Home"} isSelected={selectedPage == "Home"}/>

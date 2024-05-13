@@ -2,7 +2,7 @@ import { StyleSheet,TextInput, Text, View ,Image,TouchableOpacity,ImageBackgroun
 import React, {useState,useEffect, useContext} from 'react';
 import authBackground from '../../assets/images/authBackground.png';
 import logo from '../../assets/logos/logo.png';
-import {callApi, commonStyles,palette,screenHeightPx,windowHeightPx,windowWidthPx} from '../config';
+import {callApi, commonStyles,palette,screenHeightPx,storeData,windowHeightPx,windowWidthPx} from '../config';
 
 import Contexter from '../contexter';
 
@@ -10,11 +10,20 @@ export default function LoginPage({navigation}){
     const [usernameEmail, setUsernameEmail] = useState("");
     const [password,setPassword] = useState("");
     const context = useContext(Contexter)
-    async function verifyAndLogin(){
+    async function verifyAndLogin(user){
       try {
         context.setLoadingActive(true)
-        const response = await callApi("/client/login",'post',{email:usernameEmail,password:password},{})
-        if(response.status==200) {navigation.navigate("Main")}
+        const response = await callApi(`/${user}/login`,"post",{email:usernameEmail,password:password},{})
+        console.log(response.data)
+        if(response.status==200) {
+          context.currentUser = user=="client"?response.data.client:response.data.provider
+          context.token = response.data.token
+          context.userType = user
+          storeData("token",response.data.token);
+          storeData("userType",user);
+          storeData("currentUser",(user=="client"?response.data.client:response.data.provider)+"")
+          navigation.navigate("Main")
+        }
           else {alert("Invalid credentials")}
       } 
       catch (error) {
@@ -24,6 +33,7 @@ export default function LoginPage({navigation}){
         context.setLoadingActive(false)
       }
     }
+
     return (
         <View style={styles.container}>
           <ImageBackground source={authBackground} style={styles.backgroundImage} resizeMode="cover">
@@ -32,16 +42,19 @@ export default function LoginPage({navigation}){
           style={styles.input}
           placeholder="Username or email"
           // value={usernameEmail}
-          onSubmitEditing={ev => setUsernameEmail(ev.nativeEvent.text)} // useEffect will get triggered because of re-rendering if you didnt use useRef
+          onChange={ev => setUsernameEmail(ev.nativeEvent.text)} // useEffect will get triggered because of re-rendering if you didnt use useRef
           />
         <TextInput
           secureTextEntry={true}
           style={[styles.input,password!="" && password.length<8 && {borderColor:'#e00'}]}
           placeholder="Password"
-          onSubmitEditing={ev => setPassword(ev.nativeEvent.text)}
+          onChange={ev => setPassword(ev.nativeEvent.text)}
           />
-        <TouchableOpacity onPress={() => verifyAndLogin()} style={[styles.button,styles.button.login,{marginTop:30}]}>
+        <TouchableOpacity onPress={() => verifyAndLogin("client")} style={[styles.button,styles.button.login,{marginTop:30}]}>
           <Text style={styles.button.login.text}>Log in</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => verifyAndLogin("provider")} style={[styles.button,styles.button.providerLogin]}>
+          <Text style={styles.button.providerLogin.text}>Log in as a provider</Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={() => navigation.navigate('Register')} style={[styles.button,styles.button.signup,{marginBottom:30}]}>
           <Text style={styles.button.signup.text}>Sign up</Text>
@@ -75,6 +88,12 @@ const styles = StyleSheet.create({
           color:'white'
         },
         backgroundColor:palette["primary"],
+      },
+      providerLogin:{
+        text:{
+          color:'white'
+        },
+        backgroundColor:palette["secondary"],
       },
       signup:{
         text:{

@@ -7,7 +7,7 @@ export default function Category({image,title}){
     return (
     <TouchableOpacity style={styles.container} >
         <Image resizeMode='contain' style={styles.image} source={image?image:placeholderImage}></Image>
-        <Text numberOfLines={1} adjustsFontSizeToFit={true} style={styles.title}>{title}</Text>
+        <Text numberOfLines={3} adjustsFontSizeToFit={true} style={styles.title}>{title}</Text>
     </TouchableOpacity>
     )
 }

@@ -7,9 +7,9 @@ import SvgMaker from '../components/SvgMaker';
 export default function CategoryLine({category,parentNav}){
     
     return (
-    <TouchableOpacity style={[styles.container,{backgroundColor:category.color}]}>
-        <SvgMaker style={styles.image} fill={'white'} width={45} height={45} source={category.image?category.image:"barsSolid"}></SvgMaker>
-        <Text style={{color:'white',fontFamily:'Montserrat-Regular',fontSize:17}}>{category.name}</Text>
+    <TouchableOpacity onPress={parentNav.navigate("ServicesByCategory",{id:category.id})} style={[styles.container,{backgroundColor:category.color}]}>
+        {category.image?<SvgMaker style={styles.image} fill={'white'} width={45} height={45} source={category.image?category.image:"barsSolid"}></SvgMaker>:null}
+        <Text style={{color:'white',fontFamily:'Montserrat-Regular',fontSize:17,marginLeft:10}}>{category.name}</Text>
     </TouchableOpacity>
     )
 }

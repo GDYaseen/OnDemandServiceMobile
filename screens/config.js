@@ -2,6 +2,8 @@ import { useFonts } from 'expo-font';
 import { Dimensions } from 'react-native';
 import { CommonActions } from '@react-navigation/native';
 import axios from 'axios'
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 function loadFonts(){
     const [fontsLoaded] = useFonts({
         'Montserrat-Thin': require('../assets/fonts/Montserrat/Montserrat-Thin.ttf'),
@@ -41,14 +43,43 @@ function loadFonts(){
         'Raleway-BoldItalic': require('../assets/fonts/Raleway/Raleway-BoldItalic.ttf'),
         'Raleway-ThinItalic': require('../assets/fonts/Raleway/Raleway-ThinItalic.ttf'),
     });
-    if(!fontsLoaded){
-        return undefined
-    }
+        return fontsLoaded
 }
+const storeData = async (key, value) => {
+  try {
+    await AsyncStorage.setItem(key, value);
+    console.log('Data stored successfully!');
+  } catch (error) {
+    console.error('Error storing data:', error);
+  }
+};
+const getData = async (key) => {
+  try {
+    const value = await AsyncStorage.getItem(key);
+    if (value !== null) {
+      console.log('Retrieved data:', value);
+      return value;
+    } else {
+      console.log('No data found for key:', key);
+      return null;
+    }
+  } catch (error) {
+    console.error('Error retrieving data:', error);
+    return null;
+  }
+};
+const removeData = async (key) => {
+  try {
+    await AsyncStorage.removeItem(key);
+    console.log('Data removed successfully!');
+  } catch (error) {
+    console.error('Error removing data:', error);
+  }
+};
+
 const callApi = async (url, method, data = null,headers) => {
   try {
-    const response = await axios({url:"http://127.0.0.1:8000/api/v1"+url,method, data ,headers,validateStatus:function(status){return true;}});
-    alert(response.status)
+    const response = await axios({url:"http://192.168.43.252/api/v1"+url,method, data ,headers,validateStatus:function(status){return true;}});
     return response;
   } catch (error) {
     console.error('API call failed: ', error);
@@ -79,5 +110,6 @@ const screenHeightPx = Dimensions.get('screen').height;
 const windowWidthPx = Dimensions.get('window').width;
 const windowHeightPx = Dimensions.get('window').height;
 
-export {commonStyles,palette,loadFonts,windowWidthPx,screenWidthPx,windowHeightPx,screenHeightPx,handleNavDispatch,callApi}
+export {commonStyles,palette,windowWidthPx,screenWidthPx,windowHeightPx,screenHeightPx,
+            loadFonts,handleNavDispatch,callApi,storeData,getData,removeData}
 

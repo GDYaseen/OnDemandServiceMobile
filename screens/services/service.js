@@ -1,19 +1,20 @@
 import {SafeAreaView, StyleSheet,TextInput, Text,View ,Image,TouchableOpacity,Platform,Animated} from 'react-native';
-import React, {useState,useEffect,useRef} from 'react';
+import React, {useState,useEffect,useRef, useContext} from 'react';
 
 import {commonStyles,palette} from '../config';
 import placeholderImage from '../../assets/images/placeholderImage.png'
+import Contexter from '../contexter';
 export default function Service({service,parentNav}){
-    
+    const context = useContext(Contexter)
     return (
     <View style={styles.container}>
         <Image resizeMode='contain' style={styles.preview} source={service.image?service.image:placeholderImage}></Image>
         <View style={{flex:1,paddingLeft:10}}>
-            <Text style={styles.category}>{service.category}</Text>
-            <Text style={styles.title}>{service.title}</Text>
-            <Text style={styles.stars}>{service.stars} ⭐</Text>
+            <Text style={styles.category}>{context.categories.find((c)=>c.id==service.category_id)?.name}</Text>
+            <Text style={styles.title}>{service.name}</Text>
+            {service.stars?<Text style={styles.stars}>{service.stars} ⭐</Text>:null}
             <Text style={styles.price}>{service.price} DH</Text>
-            <TouchableOpacity onPress={()=>{parentNav.navigate("ServiceDetails",{id:service.key})}} style={styles.hireButton}>
+            <TouchableOpacity onPress={()=>{parentNav.navigate("ServiceDetails",{id:service.id})}} style={styles.hireButton}>
                 <Text style={{fontFamily:'Montserrat-Regular',color:'white'}}>HIRE</Text>
             </TouchableOpacity>  
         </View>

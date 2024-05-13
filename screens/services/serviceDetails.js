@@ -1,18 +1,51 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useContext, useEffect } from 'react';
 import { View, Text, ScrollView, StyleSheet, Animated, TouchableOpacity, Image, Touchable } from 'react-native';
 
 
 import placeholderImage from '../../assets/images/placeholderImage.png'
 import SvgMaker from '../components/SvgMaker';
 import profilePng from '../../assets/images/account.png'
-import { palette,windowWidthPx } from '../config';
+import { callApi, palette,windowWidthPx } from '../config';
 import Review from '../reviews/review';
 import Popup from '../components/Popup';
 import MakeOrder from './makeOrder';
+import Contexter from '../contexter';
+import Loading from '../components/loading';
 export default function ServiceDetails({navigation,route}) {
-  const { id } = route.params;
+  const { id,_service } = route.params;
   
+  const context = useContext(Contexter);
+  const [loadingActive, setLoadingActive] = useState(true);
+  const [service,setService] = useState(_service)
   const [modalVisible, setModalVisible] = useState(false);
+  useEffect(() => {
+    async function getService() {
+    try {
+        console.log("searching service details");
+        const response = await callApi(`/${context.userType}/services/`+id,"get",{},{Authorization: `Bearer ${context.token}`})
+        
+        if(response.status==200) {
+          setService(response.data.service)
+      }
+      else {
+        alert("Couldn't get service, it may have been blocked by the provider")
+        navigation.goBack()
+      }
+      }
+      catch (error) {
+        alert('Failed to fetch data',error);
+        navigation.goBack()
+      }
+    } 
+    if (!service) {
+      getService()
+    }
+   
+  }, []);
+  if (!service) {
+    return <Loading.LoadingScreen isActive={true} />;
+  }
+
   function hire(){
     setModalVisible(true)
     
@@ -24,25 +57,24 @@ export default function ServiceDetails({navigation,route}) {
       </TouchableOpacity>
 
       <Image source={placeholderImage} resizeMode="contain" style={{height:200,backgroundColor:'lightgray',width:windowWidthPx}}/>
-      <TouchableOpacity onPress={()=>navigation.navigate("ProviderDetails",{id:"seller's id"})} style={styles.profile}>
+      <TouchableOpacity onPress={()=>navigation.navigate("ProviderDetails",{provider:service.provider,service:service})} style={styles.profile}>
         <Image source={profilePng} style={styles.profile.image} />
-        <Text style={styles.profile.sellerName}>Seller name</Text>
+        <Text style={styles.profile.sellerName}>{service.provider.first_name} {service.provider.last_name}</Text>
       </TouchableOpacity>
       <View style={styles.content}>
-        <Text style={styles.content.title}>Title titling the title thing</Text>
-        <Text style={styles.content.description}>This is the description {lorem}</Text>
-        <TouchableOpacity style={styles.content.hireButton} onPress={hire}><Text style={styles.content.hireButton.text}>Continue (100DH)</Text></TouchableOpacity>
+        <Text style={styles.content.title}>{service.name}</Text>
+        <Text style={styles.content.description}>{service.description}</Text>
+        <TouchableOpacity style={styles.content.hireButton} onPress={hire}><Text style={styles.content.hireButton.text}>Continue {service.price} DH</Text></TouchableOpacity>
       </View>
       <View style={styles.content}>
-        <Text style={styles.content.stars}>⭐ ⭐ ⭐ ⭐ ⭐ 4.5</Text>
-        <Text style={[styles.content.sectionTitle]}>14 Reviews</Text>
+        <View style={{flexDirection:'row',justifyContent:"space-between"}}>
+          <Text style={[styles.content.stars,styles.content.sectionTitle]}>⭐ {(service.feedbacks_sum_stars/service.feedbacks_count).toFixed(1)}</Text>
+          <Text style={[styles.content.sectionTitle,{color:palette.secondary}]}>{service.orders_count} orders</Text>
+        </View>
+        <Text style={[styles.content.sectionTitle]}>{service.feedbacks_count} Reviews</Text>
         <ScrollView style={styles.content.reviews} horizontal={true} contentContainerStyle={{padding:5,flexGrow: 1 }}>
-          <Review review={r} navigation={navigation}/>
-          <Review review={r} navigation={navigation}/>
-          <Review review={r} navigation={navigation}/>
-          <Review review={r} navigation={navigation}/>
-          <Review review={r} navigation={navigation}/>
-          <Review review={r} navigation={navigation}/>
+          {service?.feedbacks.slice(0, 10).map((r)=>{
+                return (<Review review={r} navigation={navigation}/>)})}
         </ScrollView>
       </View>
       <Popup visible={modalVisible} setModalVisible={setModalVisible} content={<MakeOrder/>}/>
