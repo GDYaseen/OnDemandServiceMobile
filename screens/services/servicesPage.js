@@ -70,7 +70,7 @@ export default function ServicesPage({navigateTo,navigation,parentNav}){
         {categories ? (
         <ScrollView horizontal={true} contentContainerStyle={{ flexGrow: 1 }}>
                 {categories.slice(0,4).map((d)=>{
-                return (<Category key={d.id} image={d.icon} title={d.name}/>)})}
+                return (<Category parentNav={navigation} key={d.id} category={d}/>)})}
                 </ScrollView>
             ) : (
                 <Loading.LoadingSpinner></Loading.LoadingSpinner>

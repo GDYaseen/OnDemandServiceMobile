@@ -22,17 +22,13 @@ export default function ProviderDetails({ navigation, route, service }) {
   useEffect(() => {
     async function getServices() {
       try {
-        const response = await callApi(
-          `/${context.userType}/provider/${provider.id}/services`,
-          "get",
-          {},
-          { Authorization: `Bearer ${context.token}` }
-        );
+        const response = await callApi(`/${context.userType}/provider/${provider.id}/services`,"get",{},{Authorization: `Bearer ${context.token}`});
         console.log(response.data);
         if (response.status == 200) {
           setServices(response.data.services);
         } else {
           alert("Couldn't get services");
+          setServices([])
         }
       } catch (error) {
         console.log("Failed to fetch data", error);
@@ -46,7 +42,10 @@ export default function ProviderDetails({ navigation, route, service }) {
         style={{height: 50,backgroundColor: palette.dark,flexDirection: "row"}}>
         <TouchableOpacity
           style={styles.back}
-          onPress={() => {navigation.goBack();navigation.goBack();navigation.navigate("ServiceDetails", { _service: service });}}>
+          onPress={() => {
+            if(service) {navigation.goBack();navigation.goBack();navigation.navigate("ServiceDetails", { _service: service });}
+            else {context.nav.goBack()}   
+            }}>
           <SvgMaker source={"back"} width={20} height={20} fill={"#fff"} />
         </TouchableOpacity>
       </View>
@@ -267,30 +266,3 @@ const styles = StyleSheet.create({
     },
   },
 });
-
-let data = [
-  {
-    key: 10,
-    price: 100,
-    stars: 4.9,
-    title: "Trician Hassan industries yes",
-    category: "Electricien",
-    image: null,
-  },
-  {
-    key: 56,
-    price: 30,
-    stars: 2.1,
-    title: "CarWash",
-    category: "Lavage",
-    image: null,
-  },
-  {
-    key: 29,
-    price: 20,
-    stars: 0.6,
-    title: "Studio 2019",
-    category: "Photographer",
-    image: null,
-  },
-];

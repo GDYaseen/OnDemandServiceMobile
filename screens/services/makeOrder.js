@@ -45,7 +45,7 @@ export default function MakeOrder({service}){
             </View>
             <TouchableOpacity style={styles.detail.hireButton}>
               <Text style={styles.detail.hireButton.text}>Confirm</Text></TouchableOpacity>
-      {/* <DatePicker
+      <DatePicker
         modal
         open={open}
         date={date}
@@ -56,7 +56,7 @@ export default function MakeOrder({service}){
         onCancel={() => {
           setOpen(false)
         }}
-      />*/}
+      />
         </View>
     )
 }

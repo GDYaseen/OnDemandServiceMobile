@@ -10,9 +10,9 @@ export default function Service({service,parentNav}){
     <View style={styles.container}>
         <Image resizeMode='contain' style={styles.preview} source={service.image?service.image:placeholderImage}></Image>
         <View style={{flex:1,paddingLeft:10}}>
-            <Text style={styles.category}>{context.categories.find((c)=>c.id==service.category_id)?.name}</Text>
+            <Text style={styles.category}>{context.categories.find((c)=>c.id==service.category_id||c.id==service.category?.id)?.name}</Text>
             <Text style={styles.title}>{service.name}</Text>
-            {service.stars?<Text style={styles.stars}>{service.stars} ⭐</Text>:null}
+            {service.stars?<Text style={styles.stars}>{service.stars?service.stars:0} ⭐</Text>:null}
             <Text style={styles.price}>{service.price} DH</Text>
             <TouchableOpacity onPress={()=>{parentNav.navigate("ServiceDetails",{id:service.id})}} style={styles.hireButton}>
                 <Text style={{fontFamily:'Montserrat-Regular',color:'white'}}>HIRE</Text>

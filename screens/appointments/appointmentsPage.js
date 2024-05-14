@@ -7,12 +7,13 @@ import AppointmentPopup from "./appointmentPopup";
 
 export default function AppointmentsPage({navigation,bottomBar,bottomContent,}) {
   const [markedDates, setMarkedDates] = useState(createMarkedDates());
-  const handleDayPress = (day) => {
-    if (appointmentDates.includes(day.dateString)) {
+  const [selectedDate,setSelectedDate] = useState(null)
+  const handleAppointmentPress = (day) => {
+    if (appointmentDates.includes(selectedDate.dateString)) {
       bottomBar(true);
       bottomContent({
         height: 290,
-        components: <AppointmentPopup appointment={data[0]} />,
+        components: <AppointmentPopup cancelAction={()=>bottomBar(false)} appointment={data[0]} />,
       });
     } else {
       bottomBar(false);
@@ -31,27 +32,21 @@ export default function AppointmentsPage({navigation,bottomBar,bottomContent,}) 
       <Calendar
         theme={calendarTheme}
         firstDay={1}
-        onDayPress={handleDayPress}
+        onDayPress={setSelectedDate}
         markedDates={{
           [dateString]: { selected: true, selectedColor: palette.secondary },
           ...markedDates,
         }}
       />
       <ScrollView style={{}} contentContainerStyle={styles.appointments}>
-        <Text
-          style={[
-            styles.appointments.selectDate,
-            {
-              /*display:none*/
-            },
-          ]}
-        >
-          Please select a date
-        </Text>
+        {selectedDate?
+      data.map((d) => {
+        return <Appointment handlePress={()=>handleAppointmentPress(selectedDate)} appointment={d} key={d.key} />;
+      })
+      :
+      <Text style={styles.appointments.selectDate}>Please select a date</Text>
+      }
 
-        {data.map((d) => {
-          return <Appointment appointment={d} key={d.key} />;
-        })}
       </ScrollView>
     </View>
   );
@@ -93,11 +88,11 @@ const calendarTheme = {
 };
 const today = new Date();
 const appointmentDates = [
-  "2024-04-16",
-  "2024-04-11",
-  "2024-04-17",
-  "2024-04-20",
-  "2024-04-23",
+  "2024-05-16",
+  "2024-05-11",
+  "2024-05-17",
+  "2024-05-20",
+  "2024-05-23",
 ];
 const dateString = `${today.getFullYear()}-${(
   "0" +
@@ -118,14 +113,14 @@ const createMarkedDates = () => {
   return marks;
 };
 
-data = [
+const data = [
   {
     key: 10,
     price: 100,
     provider: "Anas",
     providerImage: null,
     time: "14:30",
-    title: "Trician Hassan industries yes asdal asdlkasdlkas dasdlaksjdkjkkkkk",
+    title: "Trician Hassan",
     category: "Electricien",
     image: null,
   },

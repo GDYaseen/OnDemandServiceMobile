@@ -14,7 +14,8 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import profilePng from '../../assets/images/account.png'
 import HideableText from '../components/HideableText';
 
-export default function ProfileEdit({navigation}){
+export default function ProfileEdit({navigation,route}){
+    const {profile} = route.params
 
     const [sidebarOpen, setSidebarOpen] = useState(false);
     // const [isTextVisible, setTextVisible] = useState(false);
@@ -28,27 +29,26 @@ export default function ProfileEdit({navigation}){
             <SvgMaker  source={'back'} width={20} height={20} fill={"#fff"} />
             </TouchableOpacity>
         </View>
-            <View style={styles.profile}>
+            <View style={styles._profile}>
                 <ImageInput aspect={[1,1]} type={'profile'} image={image} setImage={setImage} style={{height:150,backgroundColor:'lightgray',width:windowWidthPx}} ></ImageInput>
                 {/* <Image source={profilePng} 
-                    style={styles.profile.image} /> */}
+                    style={styles._profile.image} /> */}
             </View>
             <View style={{flexDirection:'row'}}>
-                <View style={styles.detail}><Text style={styles.detail.title}>First Name:</Text><TextInput style={styles.detail.input}>myFirstName</TextInput></View>
-                <View style={styles.detail}><Text style={styles.detail.title}>Last Name:</Text><TextInput style={styles.detail.input}>myLastName</TextInput></View>
+                <View style={styles.detail}><Text style={styles.detail.title}>First Name:</Text><TextInput style={styles.detail.input}>{profile.first_name}</TextInput></View>
+                <View style={styles.detail}><Text style={styles.detail.title}>Last Name:</Text><TextInput style={styles.detail.input}>{profile.last_name}</TextInput></View>
             </View>
             <View style={styles.detail}><Text style={styles.detail.title}>Id Card:</Text>
-                    <TextInput style={styles.detail.input}>NE4232832</TextInput></View>
+                    <TextInput style={styles.detail.input}>{profile.id_card}</TextInput></View>
             <View style={styles.detail}><Text style={styles.detail.title}>Phone Number:</Text>
-                    <TextInput style={styles.detail.input}>+212 6 42328329</TextInput></View>
+                    <TextInput style={styles.detail.input}>{profile.phone_number}</TextInput></View>
             <View style={styles.detail}><Text style={styles.detail.title}>Date of birth:</Text>
-                    <TextInput style={styles.detail.input}>2002-1-1</TextInput></View>
+                    <TextInput editable={false} style={styles.detail.input}>{profile.date_of_birth.slice(0,10)}</TextInput></View>
             <View style={styles.detail}><Text style={styles.detail.title}>Email:</Text>
-                    <TextInput editable={false} style={[styles.detail.input,{backgroundColor:'lightgray'}]}>something@somewhere.com</TextInput></View>
-            
-            <TouchableOpacity style={styles.detail.changePass}>
+                    <TextInput editable={false} style={[styles.detail.input,{backgroundColor:'lightgray'}]}>{profile.email}</TextInput></View>
+            {/* <TouchableOpacity style={styles.detail.changePass}>
                 <Text style={styles.detail.changePass.text}>Change password?</Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
             <TouchableOpacity style={[styles.detail.saveButton,{backgroundColor:palette.secondary}]}>
                             <Text style={styles.detail.saveButton.text}>Save</Text></TouchableOpacity>
 
@@ -59,7 +59,7 @@ export default function ProfileEdit({navigation}){
     )
 }
 const styles = StyleSheet.create({
-    profile:{
+    _profile:{
         alignItems:'center',
         width:'100%',
         image:{

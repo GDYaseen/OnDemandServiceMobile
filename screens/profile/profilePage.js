@@ -15,9 +15,9 @@ import profilePng from '../../assets/images/account.png'
 import HideableText from '../components/HideableText';
 
 export default function ProfilePage({navigation}){
-
+    const context = useContext(Contexter)
     const [sidebarOpen, setSidebarOpen] = useState(false);
-    const [isTextVisible, setTextVisible] = useState(false);
+    // const [isTextVisible, setTextVisible] = useState(false);
     return(
         <ScrollView contentContainerStyle={{flexGrow:1,
         paddingBottom:50}}>
@@ -25,7 +25,7 @@ export default function ProfilePage({navigation}){
                     <SvgMaker source='barsSolid' fill={palette.secondary} width={30} height={30}/>
                 </TouchableOpacity>
             <View style={{width:50,height:50,position:'absolute',right:0,margin:5,borderRadius:25,backgroundColor:palette.dark}}>
-                <TouchableOpacity style={styles.edit} onPress={()=>navigation.navigate("ProfileEdit")} >
+                <TouchableOpacity style={styles.edit} onPress={()=>navigation.navigate("ProfileEdit",{profile:context.currentUser})} >
                     <SvgMaker  source={'edit'} width={20} height={20} fill={"#fff"} />
                 </TouchableOpacity>
             </View>
@@ -34,27 +34,27 @@ export default function ProfilePage({navigation}){
                     style={styles.profile.image} />
             </View>
             <View style={{flexDirection:'row'}}>
-                <View style={styles.detail}><Text style={styles.detail.title}>First Name:</Text><Text style={styles.detail.value}>myFirstName</Text></View>
-                <View style={styles.detail}><Text style={styles.detail.title}>Last Name:</Text><Text style={styles.detail.value}>myLastName</Text></View>
+                <View style={styles.detail}><Text style={styles.detail.title}>First Name:</Text><Text style={styles.detail.value}>{context.currentUser.first_name}</Text></View>
+                <View style={styles.detail}><Text style={styles.detail.title}>Last Name:</Text><Text style={styles.detail.value}>{context.currentUser.last_name}</Text></View>
             </View>
             <View style={styles.detail}><Text style={styles.detail.title}>Id Card:</Text>
-                    <Text style={styles.detail.value}>NE4232832</Text></View>
+                    <Text style={styles.detail.value}>{context.currentUser.id_card}</Text></View>
             <View style={styles.detail}><Text style={styles.detail.title}>Phone Number:</Text>
-                    <Text style={styles.detail.value}>+212 6 42328329</Text></View>
+                    <Text style={styles.detail.value}>{context.currentUser.phone_number}</Text></View>
             <View style={styles.detail}><Text style={styles.detail.title}>Date of birth:</Text>
-                    <Text style={styles.detail.value}>2002-1-1</Text></View>
+                    <Text style={styles.detail.value}>{context.currentUser.date_of_birth.slice(0,10)}</Text></View>
             <View style={styles.detail}><Text style={styles.detail.title}>Email:</Text>
-                    <Text style={styles.detail.value}>something@somewhere.com</Text></View>
+                    <Text style={styles.detail.value}>{context.currentUser.email}</Text></View>
             <View style={styles.detail}><Text style={styles.detail.title}>Joined in:</Text>
-                    <Text style={styles.detail.value}>20022-11-21</Text></View>
-            <View style={styles.detail}><Text style={styles.detail.title}>Password:</Text>
-            <View style={{flexDirection:'row'}}>
+                    <Text style={styles.detail.value}>{context.currentUser.created_at.slice(0,10)}</Text></View>
+            {/*<View style={styles.detail}><Text style={styles.detail.title}>Password:</Text>
+             <View style={{flexDirection:'row'}}>
             <HideableText style={styles.detail.value} initialText={"AwesomePassword"} isTextVisible={isTextVisible}/>
                     <TouchableOpacity style={styles.eye} onPress={() => setTextVisible(!isTextVisible)}>
                     <SvgMaker  source={'eye'} width={20} height={20} fill={palette.primary} />
                     </TouchableOpacity>
             </View>
-      </View>
+        </View> */}
                     
 
 

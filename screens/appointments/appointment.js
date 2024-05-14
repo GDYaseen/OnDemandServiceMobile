@@ -4,10 +4,10 @@ import { useFonts } from 'expo-font';
 
 import {commonStyles,palette} from '../config';
 import placeholderImage from '../../assets/images/placeholderImage.png'
-export default function Appointment({appointment}){
+export default function Appointment({handlePress,appointment}){
     
     return (
-    <View style={styles.container}>
+    <TouchableOpacity onPress={handlePress} style={styles.container}>
         <Image resizeMode='contain' style={styles.preview} source={appointment.image?appointment.image:placeholderImage}></Image>
         <View style={{flex:1,paddingLeft:10}}>
             <Text style={styles.category}>{appointment.category}</Text>
@@ -16,7 +16,7 @@ export default function Appointment({appointment}){
             <Text style={styles.seller}>{appointment.provider}</Text>
             <Text style={styles.price}>{appointment.price} DH</Text> 
         </View>
-    </View>
+    </TouchableOpacity>
     )
 }
 const styles = StyleSheet.create({

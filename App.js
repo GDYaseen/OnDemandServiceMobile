@@ -40,7 +40,7 @@ export default function App() {
       if (token) {
         context.token = token;
         context.userType = userType
-        context.currentUser = currentUser
+        context.currentUser = JSON.parse(currentUser)
         setInitialRoute("Main");
       } else {
         setInitialRoute("Login");

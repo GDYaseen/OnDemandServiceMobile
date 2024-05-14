@@ -17,7 +17,7 @@ export default function GigsPage({navigation,parentNav}){
 let data=[{
     key:0,
     category:"Electricien",
-    title:'#11abff',
+    title:'Trician hassan',
     price:200,
     image:null,
     status:"Published",
@@ -25,7 +25,7 @@ let data=[{
 {
     key:1,
     category:"Lavage",
-    title:'#4f3021',
+    title:'Doctor Alley',
     price:200,
     image:null,
     status:"Inactif",
@@ -33,7 +33,7 @@ let data=[{
 {
     key:2,
     category:"Mechanicien",
-    title:'#de6c1f',
+    title:'Photo mariage',
     price:200,
     image:null,
     status:"Published",
@@ -41,7 +41,7 @@ let data=[{
 {
     key:10,
     category:"Electricien",
-    title:'#11abff',
+    title:'Lavage de voitures',
     price:200,
     image:null,
     status:"Inactif",
@@ -49,7 +49,7 @@ let data=[{
 {
     key:11,
     category:"Lavage",
-    title:'#4f3021',
+    title:'Infirmière',
     price:200,
     image:null,
     status:"Inactif",
@@ -57,7 +57,7 @@ let data=[{
 {
     key:12,
     category:"Mechanicien",
-    title:'#de6c1f',
+    title:'Trician hassan',
     price:200,
     image:null,
     status:"Published",
@@ -65,7 +65,7 @@ let data=[{
 {
     key:20,
     category:"Electricien",
-    title:'#11abff',
+    title:'Trician hassan',
     price:200,
     image:null,
     status:"Inactif",
@@ -73,7 +73,7 @@ let data=[{
 {
     key:21,
     category:"Lavage",
-    title:'#4f3021',
+    title:'Trician hassan',
     price:200,
     image:null,
     status:"Published",
@@ -81,7 +81,7 @@ let data=[{
 {
     key:22,
     category:"Mechanicien",
-    title:'#de6c1f',
+    title:'Trician hassan',
     price:200,
     image:null,
     status:"Inactif",
@@ -89,7 +89,7 @@ let data=[{
 {
     key:30,
     category:"Electricien",
-    title:'#11abff',
+    title:'Trician hassan',
     price:200,
     image:null,
     status:"Inactif",
@@ -97,7 +97,7 @@ let data=[{
 {
     key:31,
     category:"Lavage",
-    title:'#4f3021',
+    title:'Trician hassan',
     price:200,
     image:null,
     status:"Inactif",
@@ -105,14 +105,14 @@ let data=[{
 {
     key:32,
     category:"Mechanicien",
-    title:'#de6c1f',
+    title:'Trician hassan',
     price:200,
     image:null,
     status:"Published",
 },{
     key:33,
     category:"Mechanicien",
-    title:'#1e6c1f',
+    title:'Trician hassan',
     price:200,
     image:null,
     status:"Inactif",
@@ -120,14 +120,14 @@ let data=[{
 {
     key:42,
     category:"Mechanicien",
-    title:'#444444',
+    title:'Trician hassan',
     price:200,
     image:null,
     status:"Inactif",
 },{
     key:43,
     category:"Mechanicien",
-    title:'#1e2c1f',
+    title:'Trician hassan',
     price:200,
     image:null,
     status:"Published",

@@ -3,11 +3,15 @@ import React, {useState,useEffect,useRef} from 'react';
 
 import {commonStyles,palette,windowWidthPx} from '../config';
 import placeholderImage from '../../assets/images/placeholderImage.png'
-export default function Category({image,title}){
+export default function Category({category,parentNav}){
     return (
-    <TouchableOpacity style={styles.container} >
-        <Image resizeMode='contain' style={styles.image} source={image?image:placeholderImage}></Image>
-        <Text numberOfLines={3} adjustsFontSizeToFit={true} style={styles.title}>{title}</Text>
+    <TouchableOpacity onPress={()=>parentNav.navigate("ServicesByCategory",{id:category.id})} style={[styles.container,{backgroundColor:category.color?category.color:'white'},{borderColor:category.color?category.color:palette.secondary}]} >
+        {category.icon?
+        <SvgMaker style={styles.image} fill={'white'} width={'50%'} height={'60%'} content={category.icon}/>
+        :
+        <Image resizeMode='contain' style={styles.image} source={placeholderImage}></Image>
+        }
+        <Text numberOfLines={3} adjustsFontSizeToFit={true} style={styles.title}>{category.name}</Text>
     </TouchableOpacity>
     )
 }
@@ -29,11 +33,13 @@ const styles = StyleSheet.create({
         shadowRadius: 3
     },
     title:{
-        paddingLeft:5,
+        textAlign:'center',
         fontSize:15,
-        fontFamily:'Montserrat-Regular'
+        fontFamily:'Montserrat-Regular',
+        color:'white'
     },
     image:{
-        width:'100%'
+        marginTop:10,
+        alignSelf:'center'
     }
 })

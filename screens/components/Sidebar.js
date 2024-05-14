@@ -55,12 +55,14 @@ const Sidebar = ({ selectedPage, isOpen, turnOffSidebar }) => {
         ></TouchableOpacity>
         <View style={styles.profile}>
           <Image source={profilePng} style={styles.profile.image} />
-          <Text style={styles.profile.username}>{context.currentUser?.first_name} {context.currentUser?.last_name}</Text>
+          <Text style={styles.profile.username}>{context.currentUser.first_name} {context.currentUser.last_name}</Text>
         </View>
         <View style={{ width: "100%", marginTop: 10 }}>
           <SidebarElement pageName={"Main"} image={"home"} elementName={"Home"} isSelected={selectedPage == "Home"}/>
           <SidebarElement pageName={"ProfilePage"} image={"profile"} elementName={"Profile"} isSelected={selectedPage == "Profile"}/>
+          {context.userType=="client"?null:
           <SidebarElement pageName={"AnalyticsPage"} image={"analytics"} elementName={"Analytics"} isSelected={selectedPage == "Analytics"}/>
+          }
           <SidebarElement pageName={"OrdersPage"} image={"orders"} elementName={"Orders"} isSelected={selectedPage == "Orders"}/>
           {/* <SidebarElement pageName={""} image={"settings"} elementName={"Settings"} isSelected={selectedPage == "Settings"} /> */}
         </View>

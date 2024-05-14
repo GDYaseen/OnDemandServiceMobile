@@ -3,7 +3,7 @@ import React, {useState,useEffect,useRef,useCallback, useContext } from 'react';
 import { StatusBar } from 'expo-status-bar';
 
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import {commonStyles,palette,windowHeightPx,windowWidthPx} from './config';
+import {callApi, commonStyles,palette,windowHeightPx,windowWidthPx} from './config';
 import Sidebar from './components/Sidebar';
 import SvgMaker from './components/SvgMaker'
 
@@ -17,21 +17,21 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import CategoryPage from './services/categoryPage';
 import GigsPage from './gigs/gigsPage';
 import ServicesByCategoryPage from './services/servicesByCategoryPage';
+import SearchResultPage from './search/searchResultPage';
 
 const Stack = createNativeStackNavigator();
 export default function Main({navigation}){
     const context = useContext(Contexter)
     const navigationRef = useRef();
     const navigateToScreen = (screenName,params={}) => {
-        if(screenName!="Categories" && screenName!="ServicesByCategory"){
+        if(screenName!="Categories" && screenName!="ServicesByCategory" && screenName!="SearchResultPage"){
             setOpenedTab(screenName)
         }
         navigationRef.current?.navigate(screenName,params);
     };
-
-    const [openedTab, setOpenedTab] = useState('Services')
+    const [openedTab, setOpenedTab] = useState(context.userType=="client"?'Services':'Gigs')
     const [sidebarOpen, setSidebarOpen] = useState(false);
-    
+    console.log(navigationRef.current?.getCurrentRoute())
     const handleNavigationChange = () => {
         const route = navigationRef.current?.getCurrentRoute();
         if (route) {
@@ -43,6 +43,7 @@ export default function Main({navigation}){
     };
     
     context.nav=navigation
+    
     return (
         <SafeAreaView style={{flex:1}}>
             <View style={styles.topBar}>
@@ -50,46 +51,65 @@ export default function Main({navigation}){
                 <TouchableOpacity style={styles.sideBarAndSearch.sidebarButton} onPress={() => setSidebarOpen(!sidebarOpen)}>
                     <SvgMaker source='barsSolid' fill={palette.secondary+"6f"} width={30} height={30}/>
                 </TouchableOpacity>
-                <TextInput style={styles.sideBarAndSearch.search} placeholder="Search service or seller"/>
+                <TextInput onSubmitEditing={(e)=>navigateToScreen("SearchResultPage",{keywords:e.nativeEvent.text})} style={styles.sideBarAndSearch.search} placeholder="Search service or seller"/>
                 </View>
 
-
-
+                {context.userType=="client"?
                 <View style={styles.tabs}>
-                <TouchableOpacity style={[openedTab=='Services'?styles.tabs.tab.selectedTab:null,styles.tabs.tab]} onPress={() => {navigateToScreen('Services')}}>
+                <TouchableOpacity style={[openedTab=='Services'?styles.tabs.tab.selectedTab:null,styles.tabs.tab,{width:windowWidthPx/3}]} onPress={() => {navigateToScreen('Services')}}>
                     <SvgMaker source='services' fill={openedTab=='Services'?palette.secondary+"6f":palette["dark"]+"4f"} width={20} height={20}/>
                     <Text adjustsFontSizeToFit={true} numberOfLines={1} style={openedTab=='Services'?styles.tabs.tab.selectedTab.text:styles.tabs.tab.text}> Services</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={[openedTab=='Appointments'?styles.tabs.tab.selectedTab:null,styles.tabs.tab]} onPress={() => {navigateToScreen('Appointments')}}>
+                <TouchableOpacity style={[openedTab=='Appointments'?styles.tabs.tab.selectedTab:null,styles.tabs.tab,{width:windowWidthPx/3}]} onPress={() => {navigateToScreen('Appointments')}}>
                     <SvgMaker source='calendar' fill={openedTab=='Appointments'?palette.secondary+"6f":palette["dark"]+"4f"} width={20} height={20}/>
                     <Text adjustsFontSizeToFit={true} numberOfLines={1} style={openedTab=='Appointments'?styles.tabs.tab.selectedTab.text:styles.tabs.tab.text}> Appointments</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={[openedTab=='Gigs'?styles.tabs.tab.selectedTab:null,styles.tabs.tab]} onPress={() => {navigateToScreen('Gigs')}}>
+                <TouchableOpacity style={[openedTab=='Gigs'?styles.tabs.tab.selectedTab:null,styles.tabs.tab,{width:windowWidthPx/3}]} onPress={() => {navigateToScreen('Gigs')}}>
                     <SvgMaker source='wrench' fill={openedTab=='Gigs'?palette.secondary+"6f":palette["dark"]+"4f"} width={20} height={20}/>
                     <Text adjustsFontSizeToFit={true} numberOfLines={1} style={openedTab=='Gigs'?styles.tabs.tab.selectedTab.text:styles.tabs.tab.text}> Gigs</Text>
                 </TouchableOpacity>
                 </View>
+                    :
+                    <View style={styles.tabs}>
+                <TouchableOpacity style={[openedTab=='Gigs'?styles.tabs.tab.selectedTab:null,styles.tabs.tab,{width:windowWidthPx/2}]} onPress={() => {navigateToScreen('Gigs')}}>
+                    <SvgMaker source='wrench' fill={openedTab=='Gigs'?palette.secondary+"6f":palette["dark"]+"4f"} width={20} height={20}/>
+                    <Text adjustsFontSizeToFit={true} numberOfLines={1} style={openedTab=='Gigs'?styles.tabs.tab.selectedTab.text:styles.tabs.tab.text}> Gigs</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={[openedTab=='Appointments'?styles.tabs.tab.selectedTab:null,styles.tabs.tab,{width:windowWidthPx/2}]} onPress={() => {navigateToScreen('Appointments')}}>
+                    <SvgMaker source='calendar' fill={openedTab=='Appointments'?palette.secondary+"6f":palette["dark"]+"4f"} width={20} height={20}/>
+                    <Text adjustsFontSizeToFit={true} numberOfLines={1} style={openedTab=='Appointments'?styles.tabs.tab.selectedTab.text:styles.tabs.tab.text}> Appointments</Text>
+                </TouchableOpacity>
             </View>
-
-
+                    }
+        </View>
             <View style={{position:'relative',height:windowHeightPx}}>
                 <NavigationContainer independent={true} ref={navigationRef} onStateChange={handleNavigationChange}>
-                <Stack.Navigator initialRouteName="Services" screenOptions={{headerShown: false,gestureEnabled: true}}>
-                    <Stack.Screen name="Services">
-                        {props => <ServicesPage {...props} navigateTo={navigateToScreen} parentNav={navigation}/>}
+                <Stack.Navigator initialRouteName={context.userType=="client"?'Services':'Gigs'} screenOptions={{headerShown: false,gestureEnabled: true}}>
+                    {context.userType=="client"?
+                        props => (
+                            <Stack.Screen name="Services">
+                        <ServicesPage {...props} navigateTo={navigateToScreen} parentNav={navigation}/>
                     </Stack.Screen>
+                    )
+                        :
+                        null}
                     <Stack.Screen name="Appointments">
                         {props => <AppointmentsPage {...props} bottomBar={context.bottomPopup.setBottomBarOpen} bottomContent={context.bottomPopup.setBottomBarContent} parentNav={navigation}/>}
                     </Stack.Screen>
                     <Stack.Screen name="Gigs">
-                        {/* {props => <NotProvider {...props}/>} */}
-                        {props => <GigsPage {...props} parentNav={navigation}/>}
+                        {context.userType=="client"?
+                        props => (<NotProvider {...props}/>)
+                        :
+                        props => (<GigsPage {...props} parentNav={navigation}/>)}
                     </Stack.Screen>
                     <Stack.Screen name="Categories">
                         {props => <CategoryPage {...props}/>}
                     </Stack.Screen>
                     <Stack.Screen name="ServicesByCategory">
                         {props => <ServicesByCategoryPage {...props}/>}
+                    </Stack.Screen>
+                    <Stack.Screen name="SearchResultPage">
+                        {props => <SearchResultPage {...props}/>}
                     </Stack.Screen>
                 </Stack.Navigator>
                 </NavigationContainer>
@@ -137,7 +157,6 @@ const styles = StyleSheet.create({
         tab:{
             height:48,
             flexDirection:'row',
-            width:windowWidthPx/3,
             alignItems:'center',
             justifyContent:'center',
             text:{

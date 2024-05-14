@@ -1,19 +1,20 @@
 import {SafeAreaView, StyleSheet,TextInput, Text,View ,Image,TouchableOpacity,Platform,Animated} from 'react-native';
-import React, {useState,useEffect,useRef} from 'react';
+import React, {useState,useEffect,useRef, useContext} from 'react';
 import { useFonts } from 'expo-font';
 
 import {commonStyles,palette} from '../config';
 import placeholderImage from '../../assets/images/placeholderImage.png'
 import profilePng from '../../assets/images/account.png'
-export default function AppointmentPopup({appointment}){
-    
+import Contexter from '../contexter';
+export default function AppointmentPopup({cancelAction,appointment}){
+    const context = useContext(Contexter)
     return (
     <View style={styles.container}>
             <Text numberOfLines={3} style={styles.title}>{appointment.title}</Text>
             <View style={styles.profile}>
                 <Image source={appointment.providerImage?appointment.providerImage:profilePng} 
                     style={styles.profile.image} />
-                <Text style={styles.profile.sellerName}>appointment.provider</Text>
+                <Text style={styles.profile.sellerName}>{appointment.provider}</Text>
             </View>
             <View style={styles.details}>
                 <View style={styles.details.row}>
@@ -30,7 +31,7 @@ export default function AppointmentPopup({appointment}){
                 </View>
             </View>
             <View style={{height:60,flexDirection:'row',justifyContent:'space-evenly',paddingTop:10}} >
-                <TouchableOpacity style={[styles.button,{backgroundColor:'#552222'}]}><Text 
+                <TouchableOpacity onPress={()=>cancelAction()} style={[styles.button,{backgroundColor:'#552222'}]}><Text 
                     style={{color:'white',fontFamily:'Raleway-Regular'}}>Cancel appointment</Text></TouchableOpacity>
                 <TouchableOpacity style={[styles.button,{backgroundColor:palette.secondary}]}><Text 
                     style={{color:'white',fontFamily:'Raleway-Regular'}}>See details</Text></TouchableOpacity>

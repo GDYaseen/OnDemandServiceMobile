@@ -9,7 +9,7 @@ import Contexter from '../contexter';
 import Loading from '../components/loading';
 
 export default function ServicesByCategoryPage({route,parentNav}){
-    const {id} = route.params
+    const {id,categName} = route.params
     const context = useContext(Contexter)    
     const [services,setServices] = useState()
     useEffect(() => {
@@ -17,9 +17,12 @@ export default function ServicesByCategoryPage({route,parentNav}){
             try {
                 const response = await callApi(`/${context.userType}/categories/${id}`,"get",{},{Authorization: `Bearer ${context.token}`})
                 if(response.status==200) {
-                    setServices(response.data.services)
+                    setServices(response.data)
                 }
-                else {alert("Couldn't get services")}
+                else {
+                    alert("Couldn't get services")
+                    setServices([])
+                }
               } 
               catch (error) {
                 console.log('Failed to fetch data',error);
@@ -27,21 +30,22 @@ export default function ServicesByCategoryPage({route,parentNav}){
         }
         getServices();
       }, []);
-
+      let l = []
     return (
-        <ScrollView contentContainerStyle={{alignItems:'center'}}>
         
-        <View style={{flex:1}}>
-        {services ? (
+        <View style={{alignItems:'center',flex:1}}>
+            <View style={[{paddingBottom:10,backgroundColor:palette.dark},styles.sectionBar]}>
+            <Text style={{color:palette.bright,alignSelf:'center',marginLeft:5,fontSize:16,fontFamily:'Montserrat-SemiBold'}}>{categName}</Text>
+        </View>
+        {services ? services.length>0? (
             <ScrollView nestedScrollEnabled = {true} style={{paddingBottom:15,flex:1,width:windowWidthPx}}>
                 {services?.map((d)=>{
                     return (<Service parentNav={parentNav} key={d.id} service={d} />)})}
                 </ScrollView>
-            ) : (
+            ):(<Text style={{marginTop:40,textAlign:'center',color:'darkgrey',fontSize:20,fontFamily:'Montserrat-Regular'}}>No services available in that category</Text> ): (
                 <Loading.LoadingSpinner></Loading.LoadingSpinner>
             )}
         </View>
-    </ScrollView>
     )
 }
 
@@ -53,7 +57,7 @@ let styles=StyleSheet.create({
         paddingLeft:10,
         paddingRight:10,
         flexDirection:'row',
-        paddingBottom:5
+        paddingBottom:10
     }
 })
 let data=[{

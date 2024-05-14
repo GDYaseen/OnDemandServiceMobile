@@ -5,11 +5,13 @@ import logo from '../../assets/logos/logo.png';
 import {callApi, commonStyles,palette,screenHeightPx,storeData,windowHeightPx,windowWidthPx} from '../config';
 
 import Contexter from '../contexter';
+import SvgMaker from '../components/SvgMaker';
 
 export default function LoginPage({navigation}){
     const [usernameEmail, setUsernameEmail] = useState("");
     const [password,setPassword] = useState("");
     const context = useContext(Contexter)
+    const [isTextVisible, setTextVisible] = useState(true);
     async function verifyAndLogin(user){
       try {
         context.setLoadingActive(true)
@@ -21,7 +23,7 @@ export default function LoginPage({navigation}){
           context.userType = user
           storeData("token",response.data.token);
           storeData("userType",user);
-          storeData("currentUser",(user=="client"?response.data.client:response.data.provider)+"")
+          storeData("currentUser",JSON.stringify(user=="client"?response.data.client:response.data.provider))
           navigation.navigate("Main")
         }
           else {alert("Invalid credentials")}
@@ -40,16 +42,22 @@ export default function LoginPage({navigation}){
           <Image style={styles.logo} source={logo}></Image>
         <TextInput
           style={styles.input}
-          placeholder="Username or email"
+          placeholder="Email"
           // value={usernameEmail}
           onChange={ev => setUsernameEmail(ev.nativeEvent.text)} // useEffect will get triggered because of re-rendering if you didnt use useRef
           />
+          <View style={{flexDirection:'row'}}>
+
         <TextInput
-          secureTextEntry={true}
+          secureTextEntry={isTextVisible}
           style={[styles.input,password!="" && password.length<8 && {borderColor:'#e00'}]}
           placeholder="Password"
           onChange={ev => setPassword(ev.nativeEvent.text)}
           />
+          <TouchableOpacity onPress={()=>setTextVisible(!isTextVisible)} style={{position:'absolute',right:0,height:40,width:40,alignItems:'center',justifyContent:'center'}}>
+            <SvgMaker  source={'eye'} width={20} height={20} fill={palette.primary} />
+          </TouchableOpacity>
+          </View>
         <TouchableOpacity onPress={() => verifyAndLogin("client")} style={[styles.button,styles.button.login,{marginTop:30}]}>
           <Text style={styles.button.login.text}>Log in</Text>
         </TouchableOpacity>

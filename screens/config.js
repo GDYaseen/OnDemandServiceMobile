@@ -79,9 +79,11 @@ const removeData = async (key) => {
 
 const callApi = async (url, method, data = null,headers) => {
   try {
-    const response = await axios({url:"http://192.168.43.252/api/v1"+url,method, data ,headers,validateStatus:function(status){return true;}});
+    const response = await axios({url:"http://100.94.243.202/api/v1"+url,method, data ,headers,validateStatus:function(status){return true;}});
+    // const response = await axios({url:"http://192.168.43.252/api/v1"+url,method, data ,headers,validateStatus:function(status){return true;}});
     return response;
   } catch (error) {
+    alert('API call failed: ', error)
     console.error('API call failed: ', error);
     throw error;
   } 
