@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "myApp",
-    "slug": "myapp",
-    "version": "1.0.0",
+    "name": "On Demand Services",
+    "slug": "ondemandservices",
+    "version": "1.1.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -22,7 +22,7 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.gdyaseen.myapp"
+      "package": "com.gdyaseen.ondemandservices"
     },
     "web": {
       "favicon": "./assets/favicon.png"
