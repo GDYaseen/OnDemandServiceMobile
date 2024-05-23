@@ -1,26 +1,50 @@
 import {SafeAreaView, StyleSheet, TextInput, Text, View, ScrollView, Image, TouchableOpacity, Platform, Animated} from "react-native";
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useContext } from "react";
 import { Calendar } from "react-native-calendars";
-import { palette, windowHeightPx, windowWidthPx } from "../config";
+import { callApi, convertDateFormat, palette, windowHeightPx, windowWidthPx } from "../config";
 import Appointment from "./appointment";
 import AppointmentPopup from "./appointmentPopup";
+import Contexter from "../contexter";
+import Loading from "../components/loading";
 
 export default function AppointmentsPage({navigation,bottomBar,bottomContent,}) {
-  const [markedDates, setMarkedDates] = useState(createMarkedDates());
+  const context = useContext(Contexter)
+  const [markedDates, setMarkedDates] = useState(null);
   const [selectedDate,setSelectedDate] = useState(null)
-  const handleAppointmentPress = (day) => {
-    if (appointmentDates.includes(selectedDate.dateString)) {
+  const [orders,setOrders] = useState([])
+
+  const handleAppointmentPress = (day,ap) => {
+    if (markedDates[selectedDate.dateString]) {
       bottomBar(true);
       bottomContent({
         height: 290,
-        components: <AppointmentPopup cancelAction={()=>bottomBar(false)} appointment={data[0]} />,
+        components: <AppointmentPopup cancelAction={()=>bottomBar(false)} appointment={ap} />,
       });
     } else {
       bottomBar(false);
     }
   };
 
-  return (
+  useEffect(()=>{
+    async function getOrders() {
+      try {
+          const response = await callApi(`/${context.userType}/orders`,"get",{},{Authorization: `Bearer ${context.token}`})
+          if(response.status==200) {
+                setOrders(response.data.orders)
+                setMarkedDates(()=>createMarkedDates(orders.filter((o)=>o.status=="pending"||o.status=="accepted").map((o)=>convertDateFormat(o.date))))
+                alert(JSON.stringify(markedDates))
+          }
+          else {alert("Couldn't get orders")}
+        } 
+        catch (error) {
+          console.log('Failed to fetch data',error);
+        }
+  }
+  getOrders();
+  },[])
+  console.log("selecteddate is ",selectedDate)
+  return markedDates?(
+  // return(
     <View style={{ height: windowHeightPx }}>
       <View style={styles.sectionBar}>
         <Text
@@ -39,9 +63,9 @@ export default function AppointmentsPage({navigation,bottomBar,bottomContent,}) 
         }}
       />
       <ScrollView style={{}} contentContainerStyle={styles.appointments}>
-        {selectedDate?
-      data.map((d) => {
-        return <Appointment handlePress={()=>handleAppointmentPress(selectedDate)} appointment={d} key={d.key} />;
+        {orders&&markedDates&&selectedDate?
+      orders.filter((o)=>selectedDate.dateString==convertDateFormat(o.date)).map((d) => {
+        return <Appointment handlePress={()=>handleAppointmentPress(selectedDate,d)} appointment={d} key={d.key} />;
       })
       :
       <Text style={styles.appointments.selectDate}>Please select a date</Text>
@@ -49,7 +73,8 @@ export default function AppointmentsPage({navigation,bottomBar,bottomContent,}) 
 
       </ScrollView>
     </View>
-  );
+      ):(<Loading.LoadingSpinner></Loading.LoadingSpinner>
+    )
 }
 
 let styles = StyleSheet.create({
@@ -87,20 +112,15 @@ const calendarTheme = {
   },
 };
 const today = new Date();
-const appointmentDates = [
-  "2024-05-16",
-  "2024-05-11",
-  "2024-05-17",
-  "2024-05-20",
-  "2024-05-23",
-];
+
 const dateString = `${today.getFullYear()}-${(
   "0" +
   (today.getMonth() + 1)
 ).slice(-2)}-${("0" + today.getDate()).slice(-2)}`;
-const createMarkedDates = () => {
+
+const createMarkedDates = (dates) => {
   const marks = {};
-  appointmentDates.forEach((date) => {
+  dates.forEach((date) => {
     if (date == dateString) {
       marks[date] = {
         marked: true,
@@ -110,38 +130,6 @@ const createMarkedDates = () => {
       };
     } else marks[date] = { marked: true, dotColor: palette.secondary };
   });
+
   return marks;
 };
-
-const data = [
-  {
-    key: 10,
-    price: 100,
-    provider: "Anas",
-    providerImage: null,
-    time: "14:30",
-    title: "Trician Hassan",
-    category: "Electricien",
-    image: null,
-  },
-  {
-    key: 56,
-    provider: "Anas",
-    providerImage: null,
-    price: 30,
-    time: "17:30",
-    title: "CarWash",
-    category: "Lavage",
-    image: null,
-  },
-  {
-    key: 29,
-    provider: "Anas",
-    providerImage: null,
-    price: 20,
-    time: "9:30",
-    title: "Studio 2019",
-    category: "Photographer",
-    image: null,
-  },
-];

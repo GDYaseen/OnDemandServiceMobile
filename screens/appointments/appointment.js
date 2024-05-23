@@ -1,20 +1,22 @@
 import {SafeAreaView, StyleSheet,TextInput, Text,View ,Image,TouchableOpacity,Platform,Animated} from 'react-native';
-import React, {useState,useEffect,useRef} from 'react';
+import React, {useState,useEffect,useRef, useContext} from 'react';
 import { useFonts } from 'expo-font';
 
 import {commonStyles,palette} from '../config';
 import placeholderImage from '../../assets/images/placeholderImage.png'
+import Contexter from '../contexter';
 export default function Appointment({handlePress,appointment}){
-    
+    const context = useContext(Contexter)
     return (
     <TouchableOpacity onPress={handlePress} style={styles.container}>
-        <Image resizeMode='contain' style={styles.preview} source={appointment.image?appointment.image:placeholderImage}></Image>
+        <Image resizeMode='contain' style={styles.preview} source={appointment.service?.images[0]?appointment.service?.images[0]:placeholderImage}></Image>
         <View style={{flex:1,paddingLeft:10}}>
-            <Text style={styles.category}>{appointment.category}</Text>
-            <Text numberOfLines={2} style={styles.title}>{appointment.title}</Text>
-            <Text style={styles.time}>{appointment.time}</Text>
-            <Text style={styles.seller}>{appointment.provider}</Text>
-            <Text style={styles.price}>{appointment.price} DH</Text> 
+            <Text style={styles.category}>{appointment.service.category}</Text>
+            <Text numberOfLines={2} style={styles.title}>{appointment.service.name}</Text>
+            <Text style={styles.time}>{appointment.date.split(" ")[1]}</Text>
+            <Text style={styles.seller}>{context.userType=="provider"?appointment.client.first_name+" "+appointment.client.last_name:appointment.provider.first_name+" "+appointment.provider.last_name}</Text>
+            <Text style={styles.price}>{appointment.service.price} DH</Text> 
+            {appointment.is_urgent?<Text style={styles.urgentBanner}>Urgent</Text>:null}
         </View>
     </TouchableOpacity>
     )
@@ -22,10 +24,7 @@ export default function Appointment({handlePress,appointment}){
 const styles = StyleSheet.create({
     container:{
         backgroundColor:'white',
-        // width:'90%',
         height:90,
-        // marginLeft:15,
-        // marginRight:15,
         margin:10,
         flexDirection:'row',
         borderRadius:10,
@@ -45,7 +44,20 @@ const styles = StyleSheet.create({
     },
     title:{
         fontSize:14,
-        // fontFamily:'Montserrat-Light'
+    },
+    urgentBanner:{
+        position:'absolute',
+        bottom:0,
+        right:20,
+        backgroundColor:'#ee4444',
+        width:50,
+        textAlign:'center',
+        color:"white",
+        fontFamily:'Raleway-Medium',
+        fontSize:13,
+        paddingBottom:3,
+        borderTopLeftRadius:7,
+        borderTopRightRadius:7,
     },
     seller:{
         fontSize:14,

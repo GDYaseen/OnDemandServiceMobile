@@ -31,7 +31,6 @@ export default function Main({navigation}){
     };
     const [openedTab, setOpenedTab] = useState(context.userType=="client"?'Services':'Gigs')
     const [sidebarOpen, setSidebarOpen] = useState(false);
-    console.log(navigationRef.current?.getCurrentRoute())
     const handleNavigationChange = () => {
         const route = navigationRef.current?.getCurrentRoute();
         if (route) {
@@ -85,14 +84,12 @@ export default function Main({navigation}){
             <View style={{position:'relative',height:windowHeightPx}}>
                 <NavigationContainer independent={true} ref={navigationRef} onStateChange={handleNavigationChange}>
                 <Stack.Navigator initialRouteName={context.userType=="client"?'Services':'Gigs'} screenOptions={{headerShown: false,gestureEnabled: true}}>
-                    {context.userType=="client"?
-                        props => (
-                            <Stack.Screen name="Services">
+                    <Stack.Screen name="Services">
+                        {props => 
                         <ServicesPage {...props} navigateTo={navigateToScreen} parentNav={navigation}/>
+}
                     </Stack.Screen>
-                    )
-                        :
-                        null}
+                    
                     <Stack.Screen name="Appointments">
                         {props => <AppointmentsPage {...props} bottomBar={context.bottomPopup.setBottomBarOpen} bottomContent={context.bottomPopup.setBottomBarContent} parentNav={navigation}/>}
                     </Stack.Screen>

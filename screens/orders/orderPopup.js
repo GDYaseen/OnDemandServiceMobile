@@ -1,35 +1,42 @@
 import {SafeAreaView, StyleSheet,TextInput, Text,View ,Image,TouchableOpacity,Platform,Animated} from 'react-native';
-import React, {useState,useEffect,useRef} from 'react';
+import React, {useState,useEffect,useRef, useContext} from 'react';
 
 import {commonStyles,palette} from '../config';
-import placeholderImage from '../../assets/images/placeholderImage.png'
 import profilePng from '../../assets/images/account.png'
+import Contexter from '../contexter';
 export default function OrderPopup({order}){
-    
+    const context = useContext(Contexter)
     return (
     <View style={styles.container}>
-            <Text numberOfLines={3} style={styles.title}>{order.title}</Text>
+            <Text numberOfLines={3} style={styles.title}>{order.service.name}</Text>
             <View style={styles.profile}>
-                <Text style={styles.profile.sellerName}>By: </Text>
+                <Text style={styles.profile.sellerName}>{context.userType=="provider"?"By:":"To:"}</Text>
                 <Image source={order.providerImage?order.providerImage:profilePng} 
                     style={styles.profile.image} />
-                <Text style={styles.profile.sellerName}>order.provider</Text>
+                <Text style={styles.profile.sellerName}>{context.userType=="provider"?order.client.first_name+" "+order.client.last_name:order.provider.first_name+" "+order.provider.last_name}</Text>
             </View>
             <View style={styles.details}>
                 <View style={styles.details.row}>
+                    <Text style={styles.details.paymentMethod}>Payment Method:</Text>
+                    <Text style={styles.details.paymentMethod}>{order.payment_method}</Text>
+                </View>
+                <View style={styles.details.row}>
                     <Text style={styles.details.time}>Time:</Text>
-                    <Text style={styles.details.time}>{order.time}</Text>
+                    <Text style={styles.details.time}>{order.date}</Text>
                 </View>
                 <View style={styles.details.row}>
                     <Text style={styles.details.price}>Price:</Text> 
-                    <Text style={styles.details.price}>{order.price} DH</Text> 
+                    <Text style={styles.details.price}>{order.service.price} DH</Text> 
                 </View>
             </View>
             <View style={{height:60,flexDirection:'row',justifyContent:'space-evenly',paddingTop:10}} >
-                <TouchableOpacity style={[styles.button,{backgroundColor:'#474842'}]}><Text 
-                    style={{color:'white',fontFamily:'Raleway-Regular'}}>Cancel order</Text></TouchableOpacity>
-                <TouchableOpacity style={[styles.button,{backgroundColor:palette.secondary}]}><Text 
-                    style={{color:'white',fontFamily:'Raleway-Regular'}}>Accept Order</Text></TouchableOpacity>
+                {
+                    context.userType=="client"&&order.status=="completed"&&order.status!="canceled"&&order.feedback==null?
+                    (<TouchableOpacity style={[styles.button,{backgroundColor:palette.primary}]}><Text 
+                        style={{color:'white',fontFamily:'Raleway-Regular'}}>Send a feedback</Text></TouchableOpacity>)
+                        :
+                        null
+                }
             </View>
     </View>
     )
@@ -82,6 +89,11 @@ const styles = StyleSheet.create({
         row:{
             flexDirection:'row',
             justifyContent:'space-between',
+        },
+        paymentMethod:{
+            color:'white',
+            fontFamily:'Montserrat-Medium',
+            fontSize:14,
         },
         time:{
             color:'white',

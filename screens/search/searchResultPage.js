@@ -33,7 +33,6 @@ export default function SearchResultPage({route,parentNav}){
         }
         if(keywords) searchProvidersAndServices(keywords)
       }, []);
-      let l = []
     return (
         
         <View style={{alignItems:'center',flex:1}}>

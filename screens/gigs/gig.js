@@ -7,16 +7,13 @@ import SvgMaker from '../components/SvgMaker';
 export default function Gig({gig,parentNav}){
     
     return (
-    <TouchableOpacity onPress={()=>parentNav.navigate("GigDetails",{id:gig.key})} style={styles.container}>
-        <Image resizeMode='contain' style={styles.preview} source={gig.image?gig.image:placeholderImage}></Image>
+    <TouchableOpacity onPress={()=>parentNav.navigate("GigDetails",{_gig:gig})} style={styles.container}>
+        <Image resizeMode='contain' style={styles.preview} source={(gig.images?.length!=0)?gig.images[0]:placeholderImage}></Image>
         <View style={{flex:1,paddingLeft:10}}>
-            <Text style={styles.category}>{gig.category}</Text>
-            <Text numberOfLines={3} style={styles.title}>{gig.title}</Text>
+            <Text style={styles.category}>{gig.category.name}</Text>
+            <Text numberOfLines={3} style={styles.title}>{gig.name}</Text>
             <Text style={styles.price}>{gig.price} DH</Text>
-            <Text style={[styles.status,{color:gig.status=="Published"?"#64c62eaf":"#fc2672df"}]}>{gig.status}</Text>
-            {/* <TouchableOpacity onPress={()=>{parentNav.navigate("ServiceDetails",{id:gig.key})}} style={styles.hireButton}>
-                <Text style={{fontFamily:'Montserrat-Regular',color:'white'}}>HIRE</Text>
-            </TouchableOpacity>   */}
+            <Text style={[styles.status,{color:gig.status=="published"?"#64c62eaf":"#fc2672df"}]}>{gig.status}</Text>
         </View>
     </TouchableOpacity>
     )

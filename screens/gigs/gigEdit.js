@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useContext } from 'react';
 import {Modal,FlatList, View, Text,TextInput, ScrollView, StyleSheet, Animated, TouchableOpacity, Image, Touchable } from 'react-native';
 
 
@@ -8,15 +8,16 @@ import SvgMaker from '../components/SvgMaker';
 import { palette,windowWidthPx } from '../config';
 import DropdownList from '../components/dropdownList';
 import ImageInput from '../components/ImageInput';
+import Contexter from '../contexter';
 
 export default function GigEdit({navigation,route}) {
-  const { id } = route.params;
-
+  const { gig } = route.params;
+  
   const [isOpen, setIsOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState({label:'Select item'});
   const items = [{ id: 1, label: 'Item 1' }, { id: 2, label: 'Item 2' }, { id: 3, label: 'Item 3' }];
-
-  const [image, setImage] = useState(null);
+  
+  const [image, setImage] = useState(gig.images[0])
   return (
     <ScrollView stickyHeaderIndices={[0]} contentContainerStyle={{flexGrow:1,paddingBottom:20}}>
         <View style={{width:windowWidthPx,height:50,backgroundColor:palette.dark}}>
@@ -30,7 +31,7 @@ export default function GigEdit({navigation,route}) {
         <ImageInput image={image} setImage={setImage} style={{height:150,backgroundColor:'lightgray',width:windowWidthPx}} ></ImageInput>
       <View style={styles.content}>
         <Text style={styles.inputTitle}>Title:</Text>
-        <TextInput style={styles.content.input} value={"Title titling the title thing"} />
+        <TextInput style={styles.content.input} value={gig.name} />
         <Text style={styles.inputTitle}>Category:</Text>
         <View>
         <TouchableOpacity style={[styles.content.input,{flexDirection:'row',justifyContent:'space-between'}]} onPress={() => setIsOpen(!isOpen)}>
@@ -43,9 +44,9 @@ export default function GigEdit({navigation,route}) {
 
 
         <Text style={styles.inputTitle}>Price:</Text>
-        <TextInput style={styles.content.input} value={"10000"} />
+        <TextInput style={styles.content.input} value={gig.price} />
         <Text style={styles.inputTitle}>Desciption:</Text>
-        <TextInput multiline={true} style={styles.content.input} value={lorem} />
+        <TextInput multiline={true} style={styles.content.input} value={gig.description} />
       </View>
       <View style={styles.content}>
         <View style={{flexDirection:'row',justifyContent:'space-between'}}>
@@ -138,12 +139,3 @@ let styles = StyleSheet.create({
     }
   },
 })
-const lorem="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
-let r = {
-  id:123,
-  username:"Someone",
-  stars:4.1,
-  date:"3 February 2024",
-  image:null,
-  description:lorem,
-}

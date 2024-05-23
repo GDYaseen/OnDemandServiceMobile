@@ -79,7 +79,8 @@ const removeData = async (key) => {
 
 const callApi = async (url, method, data = null,headers) => {
   try {
-    const response = await axios({url:"http://100.94.243.202/api/v1"+url,method, data ,headers,validateStatus:function(status){return true;}});
+    const response = await axios({url:"http://192.168.137.1/api/v1"+url,method, data ,headers,validateStatus:function(status){return true;}});
+    // const response = await axios({url:"http://100.94.243.202/api/v1"+url,method, data ,headers,validateStatus:function(status){return true;}});
     // const response = await axios({url:"http://192.168.43.252/api/v1"+url,method, data ,headers,validateStatus:function(status){return true;}});
     return response;
   } catch (error) {
@@ -107,11 +108,27 @@ const commonStyles={
         flex: 1
     }
 }
+
+function convertDateFormat(dateStr,format="yyyy-mm-dd") {
+  // Split the date and time parts
+  const [datePart, timePart] = dateStr.split(' ');
+
+  // Split the date part into day, month, and year
+  const [day, month, year] = datePart.split('-');
+
+  // Construct the new date string in "yyyy-mm-dd" format
+  if(format=="yyyy-mm-dd")
+    return `${year}-${month}-${day}`;
+  if(format=="yyyy-mm-dd hh:mm")
+    return [`${year}-${month}-${day}`,`${timePart}`];
+
+}
+
 const screenWidthPx = Dimensions.get('screen').width;
 const screenHeightPx = Dimensions.get('screen').height;
 const windowWidthPx = Dimensions.get('window').width;
 const windowHeightPx = Dimensions.get('window').height;
 
 export {commonStyles,palette,windowWidthPx,screenWidthPx,windowHeightPx,screenHeightPx,
-            loadFonts,handleNavDispatch,callApi,storeData,getData,removeData}
+            loadFonts,handleNavDispatch,callApi,storeData,getData,removeData,convertDateFormat}
 

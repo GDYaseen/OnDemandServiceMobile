@@ -8,33 +8,37 @@ import profilePng from '../../assets/images/account.png'
 import Contexter from '../contexter';
 export default function AppointmentPopup({cancelAction,appointment}){
     const context = useContext(Contexter)
+    alert(appointment.status)
     return (
     <View style={styles.container}>
-            <Text numberOfLines={3} style={styles.title}>{appointment.title}</Text>
+            <Text numberOfLines={3} style={styles.title}>{appointment.service.name}</Text>
             <View style={styles.profile}>
-                <Image source={appointment.providerImage?appointment.providerImage:profilePng} 
+                <Image source={profilePng} 
                     style={styles.profile.image} />
-                <Text style={styles.profile.sellerName}>{appointment.provider}</Text>
+                <Text style={styles.profile.sellerName}>{context.userType=="provider"?appointment.client.first_name+" "+appointment.client.last_name:appointment.provider.first_name+" "+appointment.provider.last_name}</Text>
             </View>
             <View style={styles.details}>
                 <View style={styles.details.row}>
                     <Text style={styles.details.category}>Category:</Text>
-                    <Text style={styles.details.category}>{appointment.category}</Text>
+                    <Text style={styles.details.category}>{appointment.service.category}</Text>
                 </View>
                 <View style={styles.details.row}>
                     <Text style={styles.details.time}>Time:</Text>
-                    <Text style={styles.details.time}>{appointment.time}</Text>
+                    <Text style={styles.details.time}>{appointment.date}</Text>
                 </View>
                 <View style={styles.details.row}>
                     <Text style={styles.details.price}>Price:</Text> 
-                    <Text style={styles.details.price}>{appointment.price} DH</Text> 
+                    <Text style={styles.details.price}>{appointment.service.price} DH</Text> 
                 </View>
             </View>
             <View style={{height:60,flexDirection:'row',justifyContent:'space-evenly',paddingTop:10}} >
-                <TouchableOpacity onPress={()=>cancelAction()} style={[styles.button,{backgroundColor:'#552222'}]}><Text 
-                    style={{color:'white',fontFamily:'Raleway-Regular'}}>Cancel appointment</Text></TouchableOpacity>
-                <TouchableOpacity style={[styles.button,{backgroundColor:palette.secondary}]}><Text 
-                    style={{color:'white',fontFamily:'Raleway-Regular'}}>See details</Text></TouchableOpacity>
+                <TouchableOpacity onPress={()=>cancelAction()} style={[styles.button,{width:appointment.status=='pending'||context.userType=="provider"?'45%':'90%',backgroundColor:'#552222'}]}><Text 
+                    style={{color:'white',fontFamily:'Raleway-Regular'}}>Cancel order</Text></TouchableOpacity>
+                    {context.userType!="client"&&appointment.status=='pending'?
+
+                    (<TouchableOpacity style={[styles.button,{width:'45%',backgroundColor:palette.secondary}]}><Text 
+                        style={{color:'white',fontFamily:'Raleway-Regular'}}>Accept order</Text></TouchableOpacity>):null
+                }
             </View>
     </View>
     )
@@ -105,7 +109,6 @@ const styles = StyleSheet.create({
         },
     },
     button:{
-        width:'45%',
         height:40,
         justifyContent:'center',
         alignItems:'center',

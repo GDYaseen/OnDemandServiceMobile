@@ -1,31 +1,30 @@
 import {SafeAreaView, StyleSheet,TextInput, Text,View ,Image,TouchableOpacity,Platform,Animated} from 'react-native';
-import React, {useState,useEffect,useRef,memo} from 'react';
+import React, {useState,useEffect,useRef,memo, useContext} from 'react';
 
 import {commonStyles,palette, windowWidthPx} from '../config';
 import placeholderImage from '../../assets/images/placeholderImage.png'
 import SvgMaker from '../components/SvgMaker';
 import profilePng from '../../assets/images/account.png'
+import Contexter from '../contexter';
 export default memo(function Order({gig,parentNav,handleOrderPress}){
-    
+    const context = useContext(Contexter)
     return (
     <View style={styles.container}>
 
     <TouchableOpacity onPress={handleOrderPress} style={styles.order}>
         <Image resizeMode='contain' style={styles.preview} source={gig.image?gig.image:placeholderImage}></Image>
         <View style={{flex:1,paddingLeft:10}}>
-            <Text style={styles.category}>{gig.category}</Text>
-            <Text numberOfLines={3} style={styles.title}>{gig.title}</Text>
-            <Text style={styles.price}>{gig.price} DH</Text>
+            <Text style={styles.category}>{gig.service.category}</Text>
+            <Text numberOfLines={3} style={styles.title}>{gig.service.name}</Text>
+            <Text style={styles.price}>{gig.service.price} DH</Text>
         </View>
     </TouchableOpacity>
     <TouchableOpacity style={styles.reservation}>
         <View style={styles.reservation.profile}>
             <Image source={profilePng} style={styles.reservation.profile.image} />
-            <Text style={styles.reservation.profile.sellerName}>Client name</Text>
+            <Text style={styles.reservation.profile.sellerName}>{context.userType=="provider"?gig.client.first_name+" "+gig.client.last_name:gig.provider.first_name+" "+gig.provider.last_name}</Text>
         </View>
-        <Text style={styles.reservation.reservedDate}>Desired date: 
-        {/* {new Date().toISOString()} */} 2024-5-6
-        </Text>
+        <Text style={styles.reservation.reservedDate}>Desired date: {gig.date}</Text>
     </TouchableOpacity>
     </View>
     )
