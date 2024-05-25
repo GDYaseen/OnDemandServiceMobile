@@ -8,7 +8,6 @@ import profilePng from '../../assets/images/account.png'
 import Contexter from '../contexter';
 export default function AppointmentPopup({cancelAction,appointment}){
     const context = useContext(Contexter)
-    alert(appointment.status)
     return (
     <View style={styles.container}>
             <Text numberOfLines={3} style={styles.title}>{appointment.service.name}</Text>
@@ -18,7 +17,7 @@ export default function AppointmentPopup({cancelAction,appointment}){
                 <Text style={styles.profile.sellerName}>{context.userType=="provider"?appointment.client.first_name+" "+appointment.client.last_name:appointment.provider.first_name+" "+appointment.provider.last_name}</Text>
             </View>
             <View style={styles.details}>
-                <View style={styles.details.row}>
+            <View style={styles.details.row}>
                     <Text style={styles.details.category}>Category:</Text>
                     <Text style={styles.details.category}>{appointment.service.category}</Text>
                 </View>
@@ -27,12 +26,16 @@ export default function AppointmentPopup({cancelAction,appointment}){
                     <Text style={styles.details.time}>{appointment.date}</Text>
                 </View>
                 <View style={styles.details.row}>
+                    <Text style={styles.details.category}>Urgent?:</Text>
+                    <Text style={styles.details.category}>{appointment.is_urgent?"Yes":"No"}</Text>
+                </View>
+                <View style={styles.details.row}>
                     <Text style={styles.details.price}>Price:</Text> 
                     <Text style={styles.details.price}>{appointment.service.price} DH</Text> 
                 </View>
             </View>
             <View style={{height:60,flexDirection:'row',justifyContent:'space-evenly',paddingTop:10}} >
-                <TouchableOpacity onPress={()=>cancelAction()} style={[styles.button,{width:appointment.status=='pending'||context.userType=="provider"?'45%':'90%',backgroundColor:'#552222'}]}><Text 
+                <TouchableOpacity onPress={()=>cancelAction()} style={[styles.button,{width:appointment.status!='pending'||context.userType=="provider"?'45%':'90%',backgroundColor:'#991122'}]}><Text 
                     style={{color:'white',fontFamily:'Raleway-Regular'}}>Cancel order</Text></TouchableOpacity>
                     {context.userType!="client"&&appointment.status=='pending'?
 

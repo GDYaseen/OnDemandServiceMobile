@@ -32,7 +32,7 @@ export default function GigsPage({navigation,parentNav}){
             paddingBottom:100,alignItems:'center'}}>
             {gigs.map((d)=>{
                 return (
-                    <Gig parentNav={parentNav} key={d.key} gig={d}></Gig>
+                    <Gig parentNav={parentNav} key={d.id} gig={d}></Gig>
                 )
             })}
             </ScrollView>):(<Loading.LoadingSpinner></Loading.LoadingSpinner>)

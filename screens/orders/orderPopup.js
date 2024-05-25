@@ -29,26 +29,43 @@ export default function OrderPopup({order}){
                     <Text style={styles.details.price}>{order.service.price} DH</Text> 
                 </View>
             </View>
-            <View style={{height:60,flexDirection:'row',justifyContent:'space-evenly',paddingTop:10}} >
                 {
-                    context.userType=="client"&&order.status=="completed"&&order.status!="canceled"&&order.feedback==null?
-                    (<TouchableOpacity style={[styles.button,{backgroundColor:palette.primary}]}><Text 
-                        style={{color:'white',fontFamily:'Raleway-Regular'}}>Send a feedback</Text></TouchableOpacity>)
+                    context.userType=="client"&&order.status=="completed"&&order.status!="canceled"&&order.feedback!=null?
+                    (
+            <View style={{alignItems:'center',paddingTop:10}} >
+                <TextInput multiline={true} style={styles.feedback} />
+                    <TouchableOpacity style={[styles.button,{backgroundColor:palette.primary}]}><Text 
+                        style={{color:'white',fontFamily:'Raleway-Regular'}}>Send a review</Text></TouchableOpacity>
+            </View>
+                    )
                         :
                         null
                 }
-            </View>
     </View>
     )
 }
 const styles = StyleSheet.create({
     container:{
         width:'100%',
-        height:200,
+        height:300,
         // marginLeft:15,
         // marginRight:15,
         margin:10,
         overflow:'hidden',
+    },
+    feedback:{
+        paddingLeft:5,
+    width:'95%',
+          paddingRight:5,
+          marginBottom:10,
+          textAlign:'justify',
+          height:60,
+          fontSize:12,
+          backgroundColor:'white',
+          borderColor:palette.primary,
+          fontFamily:'Montserrat-Light',
+          borderRadius:5,
+          borderWidth:1,
     },
     profile:{
         flexDirection:'row',
@@ -82,8 +99,8 @@ const styles = StyleSheet.create({
     details:{
         padding:10,
         marginTop:0,
-        height:110,
-        flex:1,
+        marginBottom:10,
+        height:100,
         backgroundColor:palette.primary,
         justifyContent:'space-between',
         row:{

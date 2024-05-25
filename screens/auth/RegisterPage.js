@@ -6,7 +6,8 @@ import logo from '../../assets/logos/logo.png';
 import {commonStyles,palette,windowWidthPx} from '../config';
 
 export default function RegisterPage({navigation}){
-  const [username, setUsername] = useState(null);
+  const [firstname, setFirstname] = useState(null);
+  const [lastname, setLastname] = useState(null);
   const [email, setEmail] = useState(null);
     const [password,setPassword] = useState("");
   
@@ -14,11 +15,19 @@ export default function RegisterPage({navigation}){
       <View style={styles.container}>
         <ImageBackground source={authBackground} style={styles.backgroundImage} resizeMode="cover">
         <Image style={styles.logo} source={logo}></Image>
+
+        <View style={{flexDirection:'row',justifyContent:'space-between',width:windowWidthPx - 40}}>
+
         <TextInput
-          style={styles.input}
-          placeholder="Username"
-          onSubmitEditing={ev => setUsername(ev.nativeEvent.text)} // useEffect will get triggered because of re-rendering if you didnt use useRef
-        />
+          style={[styles.input,{width:windowWidthPx/1.9 - 40,}]}
+          placeholder="First Name"
+          onSubmitEditing={ev => setFirstname(ev.nativeEvent.text)} // useEffect will get triggered because of re-rendering if you didnt use useRef
+          /><TextInput
+          style={[styles.input,{width:windowWidthPx/1.9 - 40,}]}
+          placeholder="Last Name"
+          onSubmitEditing={ev => setLastname(ev.nativeEvent.text)} // useEffect will get triggered because of re-rendering if you didnt use useRef
+          />
+          </View>
         <TextInput
           style={styles.input}
           placeholder="Email"
@@ -32,6 +41,9 @@ export default function RegisterPage({navigation}){
         />
         <TouchableOpacity onPress={() => navigation.navigate('Main')} style={[styles.button,styles.button.signup]}>
           <Text style={styles.button.signup.text}>Sign up</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={[styles.button,styles.button.providerLogin]}>
+          <Text style={styles.button.providerLogin.text}>Sign up as a provider</Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={() => navigation.navigate('Login')} style={[styles.button,styles.button.login]}>
           <Text style={styles.button.login.text}>Have an account? Sign in</Text>
@@ -71,6 +83,12 @@ const styles = StyleSheet.create({
           color:'white'
         },
         backgroundColor:palette.primary,
+      },
+      providerLogin:{
+        text:{
+          color:'white'
+        },
+        backgroundColor:palette["secondary"],
       },
       login:{
         text:{

@@ -22,19 +22,19 @@ export default function MakeOrder({service}){
               </View></View>
             
             <View style={styles.detail}><Text style={styles.detail.title}>Address:</Text>
-              <TextInput style={styles.detail.input}>7da station N°:23, Essaouira</TextInput></View>
+              <TextInput style={styles.detail.input} placeholder="Your address"></TextInput></View>
             <View>
             <Text style={styles.detail.title}>Payment Method:</Text>
             <View style={styles.detail}>
             <TouchableOpacity style={[styles.detail.paymentMethod,{backgroundColor:paymentMethod=="Instantly"?palette.primary:'white'}]} 
                   onPress={() => setPaymentMethod("Instantly")} >
               <Text style={{fontFamily:'Montserrat-Regular',
-                  color:paymentMethod=="Instantly"?'white':palette.primary}}>Instantly</Text>
+                  color:paymentMethod=="Instantly"?'white':palette.primary}}>Card</Text>
             </TouchableOpacity>
             <TouchableOpacity style={[styles.detail.paymentMethod,{backgroundColor:paymentMethod=="On arrival"?palette.primary:'white'}]} 
                   onPress={() => setPaymentMethod("On arrival")} >
               <Text style={{fontFamily:'Montserrat-Regular',
-                  color:paymentMethod=="On arrival"?'white':palette.primary}}>On arrival</Text>
+                  color:paymentMethod=="On arrival"?'white':palette.primary}}>Cash</Text>
             </TouchableOpacity>
               </View>
             </View>

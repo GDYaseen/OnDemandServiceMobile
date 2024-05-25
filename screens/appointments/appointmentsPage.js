@@ -14,7 +14,7 @@ export default function AppointmentsPage({navigation,bottomBar,bottomContent,}) 
   const [orders,setOrders] = useState([])
 
   const handleAppointmentPress = (day,ap) => {
-    if (markedDates[selectedDate.dateString]) {
+    if (markedDates[day.dateString]) {
       bottomBar(true);
       bottomContent({
         height: 290,
@@ -31,8 +31,8 @@ export default function AppointmentsPage({navigation,bottomBar,bottomContent,}) 
           const response = await callApi(`/${context.userType}/orders`,"get",{},{Authorization: `Bearer ${context.token}`})
           if(response.status==200) {
                 setOrders(response.data.orders)
-                setMarkedDates(()=>createMarkedDates(orders.filter((o)=>o.status=="pending"||o.status=="accepted").map((o)=>convertDateFormat(o.date))))
-                alert(JSON.stringify(markedDates))
+                setMarkedDates(createMarkedDates(response.data.orders.filter((o)=>o.status=="pending"||o.status=="accepted").map((o)=>convertDateFormat(o.date))))
+                // alert(JSON.stringify(response.data.orders))
           }
           else {alert("Couldn't get orders")}
         } 
@@ -45,11 +45,11 @@ export default function AppointmentsPage({navigation,bottomBar,bottomContent,}) 
   console.log("selecteddate is ",selectedDate)
   return markedDates?(
   // return(
-    <View style={{ height: windowHeightPx }}>
+    <View style={{ height: windowHeightPx,backgroundColor:context.userType=="client"?"white":palette.dark }}>
       <View style={styles.sectionBar}>
         <Text
           style={{
-            marginBottom: 5,color: palette.dark,alignSelf: "center",marginLeft: 5,fontSize: 17,fontFamily: "Montserrat-SemiBold"}}>
+            marginBottom: 5,color:context.userType=="client"?palette.dark:"white",alignSelf: "center",marginLeft: 5,fontSize: 17,fontFamily: "Montserrat-SemiBold"}}>
           Current Appointments
         </Text>
       </View>

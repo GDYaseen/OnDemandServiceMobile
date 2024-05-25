@@ -50,7 +50,11 @@ export default function Main({navigation}){
                 <TouchableOpacity style={styles.sideBarAndSearch.sidebarButton} onPress={() => setSidebarOpen(!sidebarOpen)}>
                     <SvgMaker source='barsSolid' fill={palette.secondary+"6f"} width={30} height={30}/>
                 </TouchableOpacity>
-                <TextInput onSubmitEditing={(e)=>navigateToScreen("SearchResultPage",{keywords:e.nativeEvent.text})} style={styles.sideBarAndSearch.search} placeholder="Search service or seller"/>
+                {
+                    context.userType=="client"?(
+                        <TextInput onSubmitEditing={(e)=>navigateToScreen("SearchResultPage",{keywords:e.nativeEvent.text})} style={styles.sideBarAndSearch.search} placeholder="Search service or seller"/>
+                    ):null
+                }
                 </View>
 
                 {context.userType=="client"?

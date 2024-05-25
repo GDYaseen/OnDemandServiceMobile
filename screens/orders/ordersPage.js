@@ -19,7 +19,7 @@ export default function OrdersPage({ navigation }) {
     const handleOrderPress = (d) => {
         context.bottomPopup.setBottomBarOpen(true);
           context.bottomPopup.setBottomBarContent({
-            height: 200,
+            height: 300,
             components: <OrderPopup order={d}/>,
           });
         
