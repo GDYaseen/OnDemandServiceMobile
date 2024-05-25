@@ -33,7 +33,7 @@ export default function OrderPopup({order}){
                     context.userType=="client"&&order.status=="completed"&&order.status!="canceled"&&order.feedback!=null?
                     (
             <View style={{alignItems:'center',paddingTop:10}} >
-                <TextInput multiline={true} style={styles.feedback} />
+                {/* <TextInput multiline={true} style={styles.feedback} /> */}
                     <TouchableOpacity style={[styles.button,{backgroundColor:palette.primary}]}><Text 
                         style={{color:'white',fontFamily:'Raleway-Regular'}}>Send a review</Text></TouchableOpacity>
             </View>
@@ -47,7 +47,7 @@ export default function OrderPopup({order}){
 const styles = StyleSheet.create({
     container:{
         width:'100%',
-        height:300,
+        height:230,
         // marginLeft:15,
         // marginRight:15,
         margin:10,

@@ -2,6 +2,7 @@ import {StyleSheet, Text, View,Button ,TouchableOpacity,TextInput} from "react-n
 import { palette } from "../config";
 import React, { useState } from 'react';
 import { CheckBox } from "react-native-btr";
+import DatePicker from "react-native-date-picker";
 
 export default function MakeOrder({service}){
     const [date, setDate] = useState(null)
@@ -48,7 +49,7 @@ export default function MakeOrder({service}){
       <DatePicker
         modal
         open={open}
-        date={date}
+        date={date?date:new Date()}
         onConfirm={(date) => {
           setOpen(false)
           setDate(date)

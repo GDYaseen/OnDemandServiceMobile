@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { readAsStringAsync } from 'expo-file-system';
 import { Asset } from 'expo-asset';
-import { SvgXml } from 'react-native-svg';
+import  * as SVG from 'react-native-svg';
 import { Settings } from 'react-native';
 
 
@@ -10,19 +10,31 @@ export default SvgMaker = ({source,width,height,fill,style,content=""}) => {
 
   useEffect(() => {
     (async () => {
+        try{
       if(content==""){
         const asset = Asset.fromModule(SVG_MAP[source]);
-        await asset.downloadAsync();
+        if (!asset.localUri) {
+          await asset.downloadAsync();
+        }
         const svgText = await readAsStringAsync(asset.localUri);
-        setSvgContent(svgText.replace(/fill="[^"]*"/g, ''));
-      }else{
-        setSvgContent(content.match(/<svg[^>]*>([\s\S]*?)<\/svg>/)[0])
-
+        if (svgText) {
+          setSvgContent(svgText.replace(/fill="[^"]*"/g, ''));
+        }
+      }else {
+        const matchedContent = content.match(/<svg[^>]*>([\s\S]*?)<\/svg>/);
+        if (matchedContent && matchedContent[0]) {
+          setSvgContent(matchedContent[0]);
+        } else {
+          console.error("Invalid SVG content provided.");
+        }
+      }
+    }catch (error) {
+        console.error("Error loading SVG:", error);
       }
     })();
-  }, [source]);
+  }, [source,content]);
 
-  return (<SvgXml style={style} xml={svgContent} width={width} fill={fill} height={height} />);
+  return (<SVG.SvgFromXml style={style} xml={svgContent} fill={fill} width={width} height={height} />);
 };
 //keys names must be _ , 0-9 , a-z
 const SVG_MAP = {
