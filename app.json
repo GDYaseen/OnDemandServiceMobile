@@ -22,7 +22,10 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.yaseenensa9951.ondemandservices"
+      "package": "com.pfsExpo.ondemandservices",
+      "compileSdkVersion": 51,
+      "minSdkVersion": 50,
+      "targetSdkVersion": 51
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -34,9 +37,8 @@
     ],
     "extra": {
       "eas": {
-        "projectId": "ccc325a0-9da6-4c81-9a67-6b49689bbb09"
+        "projectId": "6ff5d99e-f632-4eaa-82c3-b227b8b1f516"
       }
-    },
-    "owner": "yaseenensa9951"
+    }
   }
 }
