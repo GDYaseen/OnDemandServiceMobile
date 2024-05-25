@@ -23,10 +23,7 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.pfsExpo.ondemandservices",
-      "compileSdkVersion": 51,
-      "minSdkVersion": 50,
-      "targetSdkVersion": 51
+      "package": "com.pfsExpo.ondemandservices"
     },
     "web": {
       "favicon": "./assets/favicon.png"
